@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.*
+
+# next.js
+.next/
+**/.next/
+out/
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# env files
+.env*
+**/.env*
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# build output
+build/
+dist/

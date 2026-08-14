@@ -1,0 +1,3711 @@
+{
+  "id": "decency-base",
+  "name": "Base Set",
+  "edition": "decency",
+  "description": "The original pack — general absurdist and dark humor.",
+  "nsfw": false,
+  "prompts": [
+    {
+      "id": "dp001",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hey Reddit! I’m ___. Ask me anything.",
+      "pick": 1
+    },
+    {
+      "id": "dp002",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Introducing X-treme Baseball! It’s like baseball, but with ___!",
+      "pick": 1
+    },
+    {
+      "id": "dp003",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What is Batman’s guilty pleasure?",
+      "pick": 1
+    },
+    {
+      "id": "dp004",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "TSA guidelines now prohibit ___ on airplanes.",
+      "pick": 1
+    },
+    {
+      "id": "dp005",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Next from J.K. Rowling: Harry Potter and the Chamber of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp006",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "That’s right, I killed ___. How, you ask?",
+      "pick": 1
+    },
+    {
+      "id": "dp007",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I’m sorry, Professor, but I couldn’t complete my homework because of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp008",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "And the Academy Award for ___ goes to ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp009",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dude, do not go in that bathroom. There’s ___ in there.",
+      "pick": 1
+    },
+    {
+      "id": "dp010",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "How did I lose my virginity?",
+      "pick": 1
+    },
+    {
+      "id": "dp011",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "It’s a pity that kids these days are all getting involved with ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp012",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Step 1: ___. Step 2: ___. Step 3: Profit.",
+      "pick": 2
+    },
+    {
+      "id": "dp013",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Betcha can’t have just one!",
+      "pick": 1
+    },
+    {
+      "id": "dp014",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Kids, I don’t need drugs to get high. I’m high on ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp015",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "For my next trick, I will pull ___ out of ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp016",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Mitch McConnell can’t cum without ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp017",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "In the new Disney Channel Original Movie, Hannah Montana struggles with ___ for the first time.",
+      "pick": 1
+    },
+    {
+      "id": "dp018",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s my secret power?",
+      "pick": 1
+    },
+    {
+      "id": "dp019",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I’m going on a cleanse this week. Nothing but kale juice and ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp020",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "___ + ___ = ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp021",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "When Pharaoh remained unmoved, Moses called down a Plague of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp022",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Just once, I’d like to hear you say “Thanks, Mom. Thanks for ___.”",
+      "pick": 1
+    },
+    {
+      "id": "dp023",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Daddy, why is mommy crying?",
+      "pick": 1
+    },
+    {
+      "id": "dp024",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "When I was tripping on acid, ___ turned into ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp025",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "50% of all marriages end in ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp026",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My fellow Americans: Before this decade is out, we will have ___ on the moon!",
+      "pick": 1
+    },
+    {
+      "id": "dp027",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "This season at Steppenwolf, Samuel Beckett’s classic existentialist play: Waiting for ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp028",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Instead of coal, Santa now gives the bad children ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp029",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Life for American Indians was forever changed when the White Man introduced them to ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp030",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s Teach For America using to inspire inner city students to succeed?",
+      "pick": 1
+    },
+    {
+      "id": "dp031",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Maybe she’s born with it. Maybe it’s ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp032",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My name is Peter Parker. I was bitten by a radioactive spider, and now I’m ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp033",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "White people like ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp034",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "___ is a slippery slope that leads to ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp035",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Why do I hurt all over?",
+      "pick": 1
+    },
+    {
+      "id": "dp036",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A romantic, candlelit dinner would be incomplete without ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp037",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Just saw this upsetting video! Please retweet!!! #stop ___!",
+      "pick": 1
+    },
+    {
+      "id": "dp038",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fun tip! When your man asks you to go down on him, try surprising him with ___ instead.",
+      "pick": 1
+    },
+    {
+      "id": "dp039",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The class field trip was completely ruined by ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp040",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s a girl’s best friend?",
+      "pick": 1
+    },
+    {
+      "id": "dp041",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dear Abby, I’m having trouble with ___ and would like your advice.",
+      "pick": 1
+    },
+    {
+      "id": "dp042",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "In Jordan Peele’s new thriller, a young family discovers that ___ had really been ___ all along.",
+      "pick": 2
+    },
+    {
+      "id": "dp043",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "When I am President, I will create the Department of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp044",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What are my parents hiding from me?",
+      "pick": 1
+    },
+    {
+      "id": "dp045",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What never fails to liven up the party?",
+      "pick": 1
+    },
+    {
+      "id": "dp046",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "IF you like ___, YOU MIGHT BE A REDNECK.",
+      "pick": 1
+    },
+    {
+      "id": "dp047",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Make a haiku.",
+      "pick": 1
+    },
+    {
+      "id": "dp048",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What made my first kiss so awkward?",
+      "pick": 1
+    },
+    {
+      "id": "dp049",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hey guys, welcome to the C-Suite! Would you like to start the night off right with ___?",
+      "pick": 1
+    },
+    {
+      "id": "dp050",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I got 99 problems but ___ ain’t one.",
+      "pick": 1
+    },
+    {
+      "id": "dp051",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "It’s a trap!",
+      "pick": 1
+    },
+    {
+      "id": "dp052",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hulu’s new reality show features twelve hot singles living with ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp053",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What would grandma find disturbing, yet oddly charming?",
+      "pick": 1
+    },
+    {
+      "id": "dp054",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "That was so metal.",
+      "pick": 1
+    },
+    {
+      "id": "dp055",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I never truly understood ___ until I encountered ___.",
+      "pick": 2
+    },
+    {
+      "id": "dp056",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "During sex, I like to think about ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp057",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What ended my last relationship?",
+      "pick": 1
+    },
+    {
+      "id": "dp058",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s that sound?",
+      "pick": 1
+    },
+    {
+      "id": "dp059",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Uh, hey guys, I know this was my idea, but I’m having serious doubts about ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp060",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Why am I sticky?",
+      "pick": 1
+    },
+    {
+      "id": "dp061",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I’m no doctor, but I’m pretty sure what you’re suffering from is called “___.”",
+      "pick": 1
+    },
+    {
+      "id": "dp062",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s there a ton of in heaven?",
+      "pick": 1
+    },
+    {
+      "id": "dp063",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "After four platinum albums and three Grammys, it’s time to get back to my roots, to what inspired me to make music in the first place: ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp064",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What will always get you laid?",
+      "pick": 1
+    },
+    {
+      "id": "dp065",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "They said we were crazy. They said we couldn’t put ___ inside of ___. They were wrong.",
+      "pick": 2
+    },
+    {
+      "id": "dp066",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "“Lifetime” presents the Story of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp067",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "___: kid-tested, mother-approved.",
+      "pick": 1
+    },
+    {
+      "id": "dp068",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Why can’t I sleep at night?",
+      "pick": 1
+    },
+    {
+      "id": "dp069",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What’s that smell?",
+      "pick": 1
+    },
+    {
+      "id": "dp070",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Why is Brett so sweaty?",
+      "pick": 1
+    },
+    {
+      "id": "dp071",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "This is the way the world ends. This is the way the world ends. Not with a bang but with ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp072",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Coming to Broadway this season, The Musical: ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp073",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Here is the church Here is the steeple Open the doors And there is ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp074",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "But before I kill you, Mr. Bond, I must show you ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp075",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A recent laboratory study shows that undergraduates have 50% less sex after being exposed to ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp076",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Introducing the amazing superhero/sidekick duo! It’s ___ and ___!",
+      "pick": 2
+    },
+    {
+      "id": "dp077",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Next on ESPN2: The World Series of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp078",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "When I am a billionaire, I shall erect a 50-foot statue to commemorate ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp079",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Military historians remember Alexander the Great for his brilliant use of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp080",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "War! What is it good for?",
+      "pick": 1
+    },
+    {
+      "id": "dp081",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What gives me uncontrollable gas?",
+      "pick": 1
+    },
+    {
+      "id": "dp082",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The new Chevy Tahoe. With the power and space to take ___ wherever you go.",
+      "pick": 1
+    },
+    {
+      "id": "dp083",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Well if you’ll excuse me, gentlemen, I have a date with ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp084",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Alternative medicine is now embracing the curative powers of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp085",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "As the mom of five rambunctious boys, I’m no stranger to ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp086",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "High five, bro.",
+      "pick": 1
+    },
+    {
+      "id": "dp087",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Today on Maury: “Help! My son is ___!”",
+      "pick": 1
+    },
+    {
+      "id": "dp088",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I get by with a little help from ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp089",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "★★★★★ Do NOT go here! Found in my fettuccine ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp090",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I drink to forget ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp091",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "I’m LeBron James, I’m when I’m not slamming dunks, I ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp092",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What makes life worth living?",
+      "pick": 1
+    },
+    {
+      "id": "dp093",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Arby’s: We Have ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp094",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Mr. and Mrs. Diaz, we called you in because we’re concerned about Cynthia. Are you aware that your daughter is ___?",
+      "pick": 1
+    },
+    {
+      "id": "dp095",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "If you can’t be with the one you love, love ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp096",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Brought to you by Bud Light®, the Official Beer of ___.",
+      "pick": 1
+    },
+    {
+      "id": "dp097",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Click Here for ___!!!",
+      "pick": 1
+    },
+    {
+      "id": "dp098",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Check me out, yo! I call this dance move “___.”",
+      "pick": 1
+    },
+    {
+      "id": "dp099",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Old MacDonald had E-I-E-I-O.",
+      "pick": 1
+    },
+    {
+      "id": "dp100",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Men’s Warehouse: You’re gonna like ___, I guarantee it.",
+      "pick": 1
+    }
+  ],
+  "responses": [
+    {
+      "id": "dr001",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Silence."
+    },
+    {
+      "id": "dr002",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The illusion of choice in a late-stage capitalist society."
+    },
+    {
+      "id": "dr003",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Many bats."
+    },
+    {
+      "id": "dr004",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hot Asian men."
+    },
+    {
+      "id": "dr005",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Shame."
+    },
+    {
+      "id": "dr006",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Website."
+    },
+    {
+      "id": "dr007",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Assaulting a police officer."
+    },
+    {
+      "id": "dr008",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Magnets."
+    },
+    {
+      "id": "dr009",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A sorry excuse for a father."
+    },
+    {
+      "id": "dr010",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Seeing what happens when you lock people in a room with hungry seagulls."
+    },
+    {
+      "id": "dr011",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A crucifixion."
+    },
+    {
+      "id": "dr012",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A narc."
+    },
+    {
+      "id": "dr013",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Boneless buffalo wings."
+    },
+    {
+      "id": "dr014",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A live studio audience."
+    },
+    {
+      "id": "dr015",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Complaining."
+    },
+    {
+      "id": "dr016",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Authentic Mexican cuisine."
+    },
+    {
+      "id": "dr017",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Doing crimes."
+    },
+    {
+      "id": "dr018",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "COVID-19."
+    },
+    {
+      "id": "dr019",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Crippling debt."
+    },
+    {
+      "id": "dr020",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Daddy issues."
+    },
+    {
+      "id": "dr021",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Working in an Amazon warehouse."
+    },
+    {
+      "id": "dr022",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A fart so powerful that it wakes the giants from their thousand-year slumber."
+    },
+    {
+      "id": "dr023",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Former President George W. Bush."
+    },
+    {
+      "id": "dr024",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Full frontal nudity."
+    },
+    {
+      "id": "dr025",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Covering myself Parmesan cheese and chili flakes because I am pizza."
+    },
+    {
+      "id": "dr026",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Laying an egg."
+    },
+    {
+      "id": "dr027",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting naked and watching Nickelodeon."
+    },
+    {
+      "id": "dr028",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pretending to care."
+    },
+    {
+      "id": "dr029",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Having big dreams but no realistic way to achieve them."
+    },
+    {
+      "id": "dr030",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Seeing Grandma naked."
+    },
+    {
+      "id": "dr031",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Boogers."
+    },
+    {
+      "id": "dr032",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Confederate flag."
+    },
+    {
+      "id": "dr033",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The miracle of childbirth."
+    },
+    {
+      "id": "dr034",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A positive attitude!"
+    },
+    {
+      "id": "dr035",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Having a stroke."
+    },
+    {
+      "id": "dr036",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "White privilege."
+    },
+    {
+      "id": "dr037",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Emerging from the sea and rampaging through Tokyo."
+    },
+    {
+      "id": "dr038",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Hamburglаr."
+    },
+    {
+      "id": "dr039",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The tampon from my vagina."
+    },
+    {
+      "id": "dr040",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Blood of Christ."
+    },
+    {
+      "id": "dr041",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Soft, kissy missionary sex."
+    },
+    {
+      "id": "dr042",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "BATMAN!"
+    },
+    {
+      "id": "dr043",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Agriculture."
+    },
+    {
+      "id": "dr044",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Barely making $25,000 a year."
+    },
+    {
+      "id": "dr045",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Natural selection."
+    },
+    {
+      "id": "dr046",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Boomers."
+    },
+    {
+      "id": "dr047",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dropping a hot doode out of my turd hole."
+    },
+    {
+      "id": "dr048",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My abusive boyfriend who really isn’t so bad once you get to know him."
+    },
+    {
+      "id": "dr049",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Prescription pain killers."
+    },
+    {
+      "id": "dr050",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Swooping."
+    },
+    {
+      "id": "dr051",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Mansplaining."
+    },
+    {
+      "id": "dr052",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A homoerotic volleyball montage."
+    },
+    {
+      "id": "dr053",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Alexandria Ocasio-Cortez."
+    },
+    {
+      "id": "dr054",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Putting things where they go."
+    },
+    {
+      "id": "dr055",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Holding a pepper grinder for some reason."
+    },
+    {
+      "id": "dr056",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Giving birth in prison."
+    },
+    {
+      "id": "dr057",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An old guy who’s almost dead."
+    },
+    {
+      "id": "dr058",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Kanye West."
+    },
+    {
+      "id": "dr059",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hot cheese."
+    },
+    {
+      "id": "dr060",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting serial killed."
+    },
+    {
+      "id": "dr061",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Seven dead and three in critical condition."
+    },
+    {
+      "id": "dr062",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Smegma."
+    },
+    {
+      "id": "dr063",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Alcoholism."
+    },
+    {
+      "id": "dr064",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A middle-aged man on roller skates."
+    },
+    {
+      "id": "dr065",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nobody giving a shit about anything anymore."
+    },
+    {
+      "id": "dr066",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Grabbing my man by his love handles and fucking his big ass."
+    },
+    {
+      "id": "dr067",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Stuffing my pee hole with Tic Tacs."
+    },
+    {
+      "id": "dr068",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Self-loathing."
+    },
+    {
+      "id": "dr069",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sitting on my face and telling me I’m garbage."
+    },
+    {
+      "id": "dr070",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Half-assed foreplay."
+    },
+    {
+      "id": "dr071",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Holy Bible."
+    },
+    {
+      "id": "dr072",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "German dungeon porn."
+    },
+    {
+      "id": "dr073",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being on fire."
+    },
+    {
+      "id": "dr074",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Using comedy as a coping mechanism."
+    },
+    {
+      "id": "dr075",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Gandhi."
+    },
+    {
+      "id": "dr076",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Your weird brother."
+    },
+    {
+      "id": "dr077",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Birth control."
+    },
+    {
+      "id": "dr078",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nasty shit, like real sick stuff."
+    },
+    {
+      "id": "dr079",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An erection that lasts longer than four hours."
+    },
+    {
+      "id": "dr080",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A three-way with my wife and Shaquille O’Neal."
+    },
+    {
+      "id": "dr081",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The past."
+    },
+    {
+      "id": "dr082",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My genitals."
+    },
+    {
+      "id": "dr083",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An endless stream of diarrhea."
+    },
+    {
+      "id": "dr084",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Science."
+    },
+    {
+      "id": "dr085",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Not reciprocating oral sex."
+    },
+    {
+      "id": "dr086",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Flightless birds."
+    },
+    {
+      "id": "dr087",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A good sniff."
+    },
+    {
+      "id": "dr088",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "50,000 volts straight to the nipples."
+    },
+    {
+      "id": "dr089",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Da club."
+    },
+    {
+      "id": "dr090",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dead birds everywhere."
+    },
+    {
+      "id": "dr091",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The arrival of the pizza."
+    },
+    {
+      "id": "dr092",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Permanent Orgasm-Face Disorder."
+    },
+    {
+      "id": "dr093",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The cool, refreshing taste of Pepsi®."
+    },
+    {
+      "id": "dr094",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Irritable bowel syndrome."
+    },
+    {
+      "id": "dr095",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Oprah."
+    },
+    {
+      "id": "dr096",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Wondering if it’s possible to get some of that salsa to go."
+    },
+    {
+      "id": "dr097",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bananas."
+    },
+    {
+      "id": "dr098",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cringe."
+    },
+    {
+      "id": "dr099",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Me jubly bubblies."
+    },
+    {
+      "id": "dr100",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Switching to Geico®."
+    },
+    {
+      "id": "dr101",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Peeing a little bit."
+    },
+    {
+      "id": "dr102",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Wet dreams."
+    },
+    {
+      "id": "dr103",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Jews."
+    },
+    {
+      "id": "dr104",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My cheating son-of-a-bitch husband."
+    },
+    {
+      "id": "dr105",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Powerful thighs."
+    },
+    {
+      "id": "dr106",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "These hoes."
+    },
+    {
+      "id": "dr107",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The only gay person in a hundred miles."
+    },
+    {
+      "id": "dr108",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Having sex for the first time."
+    },
+    {
+      "id": "dr109",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Donald J. Trump."
+    },
+    {
+      "id": "dr110",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Kissing grandma on the forehead and turning off her life support."
+    },
+    {
+      "id": "dr111",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A certain je ne sais quoi."
+    },
+    {
+      "id": "dr112",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An AR-15 assault rifle."
+    },
+    {
+      "id": "dr113",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My good bra."
+    },
+    {
+      "id": "dr114",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Punching a congressman in the face."
+    },
+    {
+      "id": "dr115",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Saying everything is okay when everything is clearly not okay."
+    },
+    {
+      "id": "dr116",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being rich."
+    },
+    {
+      "id": "dr117",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Floating down the Hudson River with the other garbage."
+    },
+    {
+      "id": "dr118",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Republicans."
+    },
+    {
+      "id": "dr119",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sniffing and kissing my feet."
+    },
+    {
+      "id": "dr120",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A much younger woman."
+    },
+    {
+      "id": "dr121",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Poverty."
+    },
+    {
+      "id": "dr122",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Kamala Harris."
+    },
+    {
+      "id": "dr123",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Committing suicide."
+    },
+    {
+      "id": "dr124",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A loser like you."
+    },
+    {
+      "id": "dr125",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A mistake."
+    },
+    {
+      "id": "dr126",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Squirting."
+    },
+    {
+      "id": "dr127",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Wizard music."
+    },
+    {
+      "id": "dr128",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Kool-Aid Man."
+    },
+    {
+      "id": "dr129",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Explaining the difference between sex and gender."
+    },
+    {
+      "id": "dr130",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Free samples."
+    },
+    {
+      "id": "dr131",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hurting those closest to me."
+    },
+    {
+      "id": "dr132",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Feeding strawberries to my manslut."
+    },
+    {
+      "id": "dr133",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Three-Fifths Compromise."
+    },
+    {
+      "id": "dr134",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Lactation."
+    },
+    {
+      "id": "dr135",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Laughing over champagne flutes while the poor freeze to death outside."
+    },
+    {
+      "id": "dr136",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Shutting up so I can watch the game."
+    },
+    {
+      "id": "dr137",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Eating a hard boiled egg out of my husband’s asshole."
+    },
+    {
+      "id": "dr138",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Doing white people shit with a bunch of white people."
+    },
+    {
+      "id": "dr139",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "One titty hanging out."
+    },
+    {
+      "id": "dr140",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fucking all my dad’s friends."
+    },
+    {
+      "id": "dr141",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Drinking gasoline to see what it tastes like."
+    },
+    {
+      "id": "dr142",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Inappropriate yodeling."
+    },
+    {
+      "id": "dr143",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Puberty."
+    },
+    {
+      "id": "dr144",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Ghosts."
+    },
+    {
+      "id": "dr145",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "50 mg of Zoloft daily."
+    },
+    {
+      "id": "dr146",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fucking my sister."
+    },
+    {
+      "id": "dr147",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Braiding three penises into a Twizzler."
+    },
+    {
+      "id": "dr148",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Vigorous jazz hands."
+    },
+    {
+      "id": "dr149",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting fingered."
+    },
+    {
+      "id": "dr150",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My Uber driver, Pavel."
+    },
+    {
+      "id": "dr151",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "GoGurt®."
+    },
+    {
+      "id": "dr152",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Police brutality."
+    },
+    {
+      "id": "dr153",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An abortion."
+    },
+    {
+      "id": "dr154",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Preteens."
+    },
+    {
+      "id": "dr155",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My fat daughter."
+    },
+    {
+      "id": "dr156",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Clean drinking water."
+    },
+    {
+      "id": "dr157",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fading away into nothingness."
+    },
+    {
+      "id": "dr158",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Darth Vader."
+    },
+    {
+      "id": "dr159",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A sad handjob."
+    },
+    {
+      "id": "dr160",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Exactly what you’d expect."
+    },
+    {
+      "id": "dr161",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Critical race theory."
+    },
+    {
+      "id": "dr162",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Adderall®."
+    },
+    {
+      "id": "dr163",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Your mom."
+    },
+    {
+      "id": "dr164",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sideboob."
+    },
+    {
+      "id": "dr165",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An octopus giving seven handjobs and smoking a cigarette."
+    },
+    {
+      "id": "dr166",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My neck, my back, my pussy, and my crack."
+    },
+    {
+      "id": "dr167",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "J.D. Power and his associates."
+    },
+    {
+      "id": "dr168",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Mouth herpes."
+    },
+    {
+      "id": "dr169",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sperm whales."
+    },
+    {
+      "id": "dr170",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Women of color."
+    },
+    {
+      "id": "dr171",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Men discussing their feelings in an emotionally healthy way."
+    },
+    {
+      "id": "dr172",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Incest."
+    },
+    {
+      "id": "dr173",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pac-Man uncontrollably guzzling cum."
+    },
+    {
+      "id": "dr174",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Casually suggesting a threesome."
+    },
+    {
+      "id": "dr175",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Running out of semen."
+    },
+    {
+      "id": "dr176",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "God."
+    },
+    {
+      "id": "dr177",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Backing over a kid with the Buick."
+    },
+    {
+      "id": "dr178",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pissing in my thirsty mouth."
+    },
+    {
+      "id": "dr179",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Emotions."
+    },
+    {
+      "id": "dr180",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Licking things to claim them as your own."
+    },
+    {
+      "id": "dr181",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Jobs."
+    },
+    {
+      "id": "dr182",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The placenta."
+    },
+    {
+      "id": "dr183",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Lips that could suck the chrome off a doorknob."
+    },
+    {
+      "id": "dr184",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Bachelorette season finale."
+    },
+    {
+      "id": "dr185",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Throwing grapes at a man until he loses touch with reality."
+    },
+    {
+      "id": "dr186",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Establishing dominance."
+    },
+    {
+      "id": "dr187",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Finger painting."
+    },
+    {
+      "id": "dr188",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Old-people smell."
+    },
+    {
+      "id": "dr189",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting crushed by a vending machine."
+    },
+    {
+      "id": "dr190",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My inner demons."
+    },
+    {
+      "id": "dr191",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A Super Soaker full of cat pee."
+    },
+    {
+      "id": "dr192",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Aunt Jemima’s racist pancake sauce."
+    },
+    {
+      "id": "dr193",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cuddling."
+    },
+    {
+      "id": "dr194",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "However much weed $20 can buy."
+    },
+    {
+      "id": "dr195",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Battlefield amputations."
+    },
+    {
+      "id": "dr196",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Spaghetti? Again?"
+    },
+    {
+      "id": "dr197",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Ronald Reagan."
+    },
+    {
+      "id": "dr198",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A disappointing birthday party."
+    },
+    {
+      "id": "dr199",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nachos for the table."
+    },
+    {
+      "id": "dr200",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Becoming a blueberry."
+    },
+    {
+      "id": "dr201",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A tiny horse."
+    },
+    {
+      "id": "dr202",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Crab."
+    },
+    {
+      "id": "dr203",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Selling crack to children."
+    },
+    {
+      "id": "dr204",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Wendy’s Spicy Chicken Sandwich."
+    },
+    {
+      "id": "dr205",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Brown people."
+    },
+    {
+      "id": "dr206",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sexually active bad geeks."
+    },
+    {
+      "id": "dr207",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pedophiles."
+    },
+    {
+      "id": "dr208",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Yeast."
+    },
+    {
+      "id": "dr209",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "How bad my daughter fucked up her dance recital."
+    },
+    {
+      "id": "dr210",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Rectangles."
+    },
+    {
+      "id": "dr211",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being fucking pathetic."
+    },
+    {
+      "id": "dr212",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Poor people."
+    },
+    {
+      "id": "dr213",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Only dating Asian women."
+    },
+    {
+      "id": "dr214",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Putting children in cages."
+    },
+    {
+      "id": "dr215",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Karen."
+    },
+    {
+      "id": "dr216",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "How amazing it is to be on mushrooms."
+    },
+    {
+      "id": "dr217",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Judging everyone."
+    },
+    {
+      "id": "dr218",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An all-white jury."
+    },
+    {
+      "id": "dr219",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting married, having a few kids, buying some stuff, retiring to Florida, and dying."
+    },
+    {
+      "id": "dr220",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Some god damn peace and quiet."
+    },
+    {
+      "id": "dr221",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "AIDS."
+    },
+    {
+      "id": "dr222",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pictures of boobs."
+    },
+    {
+      "id": "dr223",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Strong female characters."
+    },
+    {
+      "id": "dr224",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting decapitated by a helicopter."
+    },
+    {
+      "id": "dr225",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hospice care."
+    },
+    {
+      "id": "dr226",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting really high."
+    },
+    {
+      "id": "dr227",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The opioid epidemic."
+    },
+    {
+      "id": "dr228",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Penis envy."
+    },
+    {
+      "id": "dr229",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Gay conversion therapy."
+    },
+    {
+      "id": "dr230",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Burgers and pussy."
+    },
+    {
+      "id": "dr231",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Smelling of cum."
+    },
+    {
+      "id": "dr232",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The KKK."
+    },
+    {
+      "id": "dr233",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A pangender octopus who roams the cosmos in search of love."
+    },
+    {
+      "id": "dr234",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Meth."
+    },
+    {
+      "id": "dr235",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cyanide."
+    },
+    {
+      "id": "dr236",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Holding down a child and farting all over him."
+    },
+    {
+      "id": "dr237",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A Bop It.™"
+    },
+    {
+      "id": "dr238",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A whole thing of butter."
+    },
+    {
+      "id": "dr239",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Still being a virgin."
+    },
+    {
+      "id": "dr240",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Solving problems with violence."
+    },
+    {
+      "id": "dr241",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting cummed on."
+    },
+    {
+      "id": "dr242",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pixelated bukkake."
+    },
+    {
+      "id": "dr243",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A lifetime of sadness."
+    },
+    {
+      "id": "dr244",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A non-disclosure agreement."
+    },
+    {
+      "id": "dr245",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dick pics."
+    },
+    {
+      "id": "dr246",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Racism."
+    },
+    {
+      "id": "dr247",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Menstrual rage."
+    },
+    {
+      "id": "dr248",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sunshine and rainbows."
+    },
+    {
+      "id": "dr249",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Joe Biden."
+    },
+    {
+      "id": "dr250",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Three ounces of clean urine."
+    },
+    {
+      "id": "dr251",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Doing drugs with my kids."
+    },
+    {
+      "id": "dr252",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My gay best friend."
+    },
+    {
+      "id": "dr253",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A gossamer stream of jizz that catches the light as it arcs through the morning air."
+    },
+    {
+      "id": "dr254",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Executing a hostage every hour."
+    },
+    {
+      "id": "dr255",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The rhythms of Africa."
+    },
+    {
+      "id": "dr256",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Breaking out into song and dance."
+    },
+    {
+      "id": "dr257",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Leprosy."
+    },
+    {
+      "id": "dr258",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Gloryholes."
+    },
+    {
+      "id": "dr259",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nipple blades."
+    },
+    {
+      "id": "dr260",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The heart of a child."
+    },
+    {
+      "id": "dr261",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Puppies!"
+    },
+    {
+      "id": "dr262",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fellowship in Christ."
+    },
+    {
+      "id": "dr263",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My wife having sex with your wife."
+    },
+    {
+      "id": "dr264",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Waking up half-naked in a Denny’s parking lot."
+    },
+    {
+      "id": "dr265",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An older woman who knows her way around the penis."
+    },
+    {
+      "id": "dr266",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting drugs off the street and into my body."
+    },
+    {
+      "id": "dr267",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Daniel Radcliffe’s delicious asshole."
+    },
+    {
+      "id": "dr268",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Active listening."
+    },
+    {
+      "id": "dr269",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Ethnic cleansing."
+    },
+    {
+      "id": "dr270",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Itchy pussy."
+    },
+    {
+      "id": "dr271",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Blowing my boyfriend so hard he shits."
+    },
+    {
+      "id": "dr272",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A fuck-ton of almonds."
+    },
+    {
+      "id": "dr273",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A cis man playing a trans woman."
+    },
+    {
+      "id": "dr274",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Waiting till marriage."
+    },
+    {
+      "id": "dr275",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "NFTs."
+    },
+    {
+      "id": "dr276",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pretending to be a dentist."
+    },
+    {
+      "id": "dr277",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Devil himself."
+    },
+    {
+      "id": "dr278",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Salvation."
+    },
+    {
+      "id": "dr279",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Erectile dysfunction."
+    },
+    {
+      "id": "dr280",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My collection of Japanese sex toys."
+    },
+    {
+      "id": "dr281",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Pope."
+    },
+    {
+      "id": "dr282",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "White people."
+    },
+    {
+      "id": "dr283",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Tentacle porn."
+    },
+    {
+      "id": "dr284",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My bright pink fuckhole."
+    },
+    {
+      "id": "dr285",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "How far I can get my own penis up my butt."
+    },
+    {
+      "id": "dr286",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Having anuses for eyes."
+    },
+    {
+      "id": "dr287",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Two Xanax and a bottle of wine."
+    },
+    {
+      "id": "dr288",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My pet scorpion, Tina."
+    },
+    {
+      "id": "dr289",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Danny DeVito."
+    },
+    {
+      "id": "dr290",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The magic of live theatre."
+    },
+    {
+      "id": "dr291",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Throwing a virgin into a volcano."
+    },
+    {
+      "id": "dr292",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dwayne “The Rock” Johnson."
+    },
+    {
+      "id": "dr293",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Accepting the things you are."
+    },
+    {
+      "id": "dr294",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "NBA superstar LeBron James."
+    },
+    {
+      "id": "dr295",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Listening to her problems without trying to solve them."
+    },
+    {
+      "id": "dr296",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Therapy."
+    },
+    {
+      "id": "dr297",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being fat and stupid."
+    },
+    {
+      "id": "dr298",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pooping back and forth. Forever."
+    },
+    {
+      "id": "dr299",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Tearing that ass up like wrapping paper on Christmas morning."
+    },
+    {
+      "id": "dr300",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "More elephant cock than bargained for."
+    },
+    {
+      "id": "dr301",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A salty surprise."
+    },
+    {
+      "id": "dr302",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The South."
+    },
+    {
+      "id": "dr303",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The violation of our most basic human rights."
+    },
+    {
+      "id": "dr304",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Saudi oil money."
+    },
+    {
+      "id": "dr305",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Consensual sex."
+    },
+    {
+      "id": "dr306",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Telling a shitty story that goes nowhere."
+    },
+    {
+      "id": "dr307",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A good, strong gorilla."
+    },
+    {
+      "id": "dr308",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Seeing my father cry."
+    },
+    {
+      "id": "dr309",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Necrophilia."
+    },
+    {
+      "id": "dr310",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being a woman."
+    },
+    {
+      "id": "dr311",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting into a petty bar accident."
+    },
+    {
+      "id": "dr312",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bill Nye the Science Guy."
+    },
+    {
+      "id": "dr313",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Black people."
+    },
+    {
+      "id": "dr314",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Prostate stimulation."
+    },
+    {
+      "id": "dr315",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Lunchables.™"
+    },
+    {
+      "id": "dr316",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bitches."
+    },
+    {
+      "id": "dr317",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Some punk kid who stole my turkey sandwich."
+    },
+    {
+      "id": "dr318",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Heartwarming orphans."
+    },
+    {
+      "id": "dr319",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Spirit Airlines."
+    },
+    {
+      "id": "dr320",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bubble butt bottom boys."
+    },
+    {
+      "id": "dr321",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A bowl of mayonnaise and human teeth."
+    },
+    {
+      "id": "dr322",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fiery poops."
+    },
+    {
+      "id": "dr323",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Saying “I love you.”"
+    },
+    {
+      "id": "dr324",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Inserting a Mason jar into my anus."
+    },
+    {
+      "id": "dr325",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The true meaning of Christmas."
+    },
+    {
+      "id": "dr326",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Whatever’s in the fridge."
+    },
+    {
+      "id": "dr327",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Owning and operating a Chili’s franchise."
+    },
+    {
+      "id": "dr328",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Estrogen."
+    },
+    {
+      "id": "dr329",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Girls."
+    },
+    {
+      "id": "dr330",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Russians."
+    },
+    {
+      "id": "dr331",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A bleached asshole."
+    },
+    {
+      "id": "dr332",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fucking the weatherman on live television."
+    },
+    {
+      "id": "dr333",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "PTSD."
+    },
+    {
+      "id": "dr334",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dark and mysterious forces beyond our control."
+    },
+    {
+      "id": "dr335",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Smallpox blankets."
+    },
+    {
+      "id": "dr336",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Masturbating."
+    },
+    {
+      "id": "dr337",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hobos."
+    },
+    {
+      "id": "dr338",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Queefing."
+    },
+    {
+      "id": "dr339",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My fuckslave, Reginald."
+    },
+    {
+      "id": "dr340",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cardi B."
+    },
+    {
+      "id": "dr341",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Viagra.®"
+    },
+    {
+      "id": "dr342",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Soup that is too hot."
+    },
+    {
+      "id": "dr343",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The ugliest boy in town."
+    },
+    {
+      "id": "dr344",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Explaining how vaginas work."
+    },
+    {
+      "id": "dr345",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Academy Award winner Meryl Streep."
+    },
+    {
+      "id": "dr346",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Drinking alone."
+    },
+    {
+      "id": "dr347",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dick fingers."
+    },
+    {
+      "id": "dr348",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Multiple stab wounds."
+    },
+    {
+      "id": "dr349",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The death penalty."
+    },
+    {
+      "id": "dr350",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A supportive touch on the lower back."
+    },
+    {
+      "id": "dr351",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Anal beads."
+    },
+    {
+      "id": "dr352",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Slaughtering innocent civilians."
+    },
+    {
+      "id": "dr353",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pulling out."
+    },
+    {
+      "id": "dr354",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being able to talk to elephants."
+    },
+    {
+      "id": "dr355",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Horse meat."
+    },
+    {
+      "id": "dr356",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A really cool hat."
+    },
+    {
+      "id": "dr357",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Stalin."
+    },
+    {
+      "id": "dr358",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A stray pube."
+    },
+    {
+      "id": "dr359",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Worshipping that pussy."
+    },
+    {
+      "id": "dr360",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Completely unwarranted confidence."
+    },
+    {
+      "id": "dr361",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Doin’ it in the butt."
+    },
+    {
+      "id": "dr362",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My ex-wife."
+    },
+    {
+      "id": "dr363",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Tiny tits that say “Yippee!” when you touch them."
+    },
+    {
+      "id": "dr364",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Touching a pug right on his penis."
+    },
+    {
+      "id": "dr365",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A windmill full of corpses."
+    },
+    {
+      "id": "dr366",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The whole enchilada."
+    },
+    {
+      "id": "dr367",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Vladimir Putin."
+    },
+    {
+      "id": "dr368",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Patriarchy."
+    },
+    {
+      "id": "dr369",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The glass ceiling."
+    },
+    {
+      "id": "dr370",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Vomiting seafood and bleeding anally."
+    },
+    {
+      "id": "dr371",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The American Dream."
+    },
+    {
+      "id": "dr372",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Not wearing pants."
+    },
+    {
+      "id": "dr373",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My balls on your face."
+    },
+    {
+      "id": "dr374",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pooping in a laptop and closing it."
+    },
+    {
+      "id": "dr375",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Some bitch who loves pineapple."
+    },
+    {
+      "id": "dr376",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Foreskin."
+    },
+    {
+      "id": "dr377",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Getting crushed between Serena Williams’ thighs."
+    },
+    {
+      "id": "dr378",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Italians."
+    },
+    {
+      "id": "dr379",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A fetus."
+    },
+    {
+      "id": "dr380",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Firing a rifle into the air while balls deep in a squealing hog."
+    },
+    {
+      "id": "dr381",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Natural gas."
+    },
+    {
+      "id": "dr382",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Over 10,000 Guatemalan migrants."
+    },
+    {
+      "id": "dr383",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Toxic masculinity."
+    },
+    {
+      "id": "dr384",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My relationship status."
+    },
+    {
+      "id": "dr385",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An unwanted pregnancy."
+    },
+    {
+      "id": "dr386",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "marvel"
+    },
+    {
+      "id": "dr387",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My boss."
+    },
+    {
+      "id": "dr388",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bees?"
+    },
+    {
+      "id": "dr389",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Harry Potter erotica."
+    },
+    {
+      "id": "dr390",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Giving birth to the Antichrist."
+    },
+    {
+      "id": "dr391",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Three dicks at the same time."
+    },
+    {
+      "id": "dr392",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nazis."
+    },
+    {
+      "id": "dr393",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "8 oz. of Mexican black-tar heroin."
+    },
+    {
+      "id": "dr394",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "What that mouth do."
+    },
+    {
+      "id": "dr395",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dead parents."
+    },
+    {
+      "id": "dr396",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Object permanence."
+    },
+    {
+      "id": "dr397",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Opposable thumbs."
+    },
+    {
+      "id": "dr398",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Racially-biased SAT questions."
+    },
+    {
+      "id": "dr399",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Great Depression."
+    },
+    {
+      "id": "dr400",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Chainsaws for hands."
+    },
+    {
+      "id": "dr401",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Nicolas Cage."
+    },
+    {
+      "id": "dr402",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Like, whatever."
+    },
+    {
+      "id": "dr403",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Explosions."
+    },
+    {
+      "id": "dr404",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Not vaccinating my children because I am stupid."
+    },
+    {
+      "id": "dr405",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Our dildo."
+    },
+    {
+      "id": "dr406",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Huffing spray paint."
+    },
+    {
+      "id": "dr407",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A man on a brink of orgasm."
+    },
+    {
+      "id": "dr408",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Using a condom."
+    },
+    {
+      "id": "dr409",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Invading Poland."
+    },
+    {
+      "id": "dr410",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My vagina."
+    },
+    {
+      "id": "dr411",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Assless chaps."
+    },
+    {
+      "id": "dr412",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Murder."
+    },
+    {
+      "id": "dr413",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sipping kombucha like a smug piece of shit."
+    },
+    {
+      "id": "dr414",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Her Majesty, Queen Elizabeth II."
+    },
+    {
+      "id": "dr415",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Black Jesus."
+    },
+    {
+      "id": "dr416",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Memes."
+    },
+    {
+      "id": "dr417",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Sex with animals."
+    },
+    {
+      "id": "dr418",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being marginalized."
+    },
+    {
+      "id": "dr419",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Goblins."
+    },
+    {
+      "id": "dr420",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hope."
+    },
+    {
+      "id": "dr421",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Liberals."
+    },
+    {
+      "id": "dr422",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A micropenis."
+    },
+    {
+      "id": "dr423",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Committing treason."
+    },
+    {
+      "id": "dr424",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A ball of earwax, semen, and toenail clippings."
+    },
+    {
+      "id": "dr425",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A horde of Vikings."
+    },
+    {
+      "id": "dr426",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Hot people."
+    },
+    {
+      "id": "dr427",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Seething with quiet resentment."
+    },
+    {
+      "id": "dr428",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "An Oedipus complex."
+    },
+    {
+      "id": "dr429",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Geese."
+    },
+    {
+      "id": "dr430",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Extremely tight pants."
+    },
+    {
+      "id": "dr431",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fox News."
+    },
+    {
+      "id": "dr432",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A little boy who won’t shut the fuck up about dinosaurs."
+    },
+    {
+      "id": "dr433",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Bryan Cranston, of all people."
+    },
+    {
+      "id": "dr434",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Vehicular manslaughter."
+    },
+    {
+      "id": "dr435",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Women’s suffrage."
+    },
+    {
+      "id": "dr436",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Some guy."
+    },
+    {
+      "id": "dr437",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Judge Judy."
+    },
+    {
+      "id": "dr438",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Climbing a telephone pole and becoming one with the T-Mobile network."
+    },
+    {
+      "id": "dr439",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "This month’s mass shooting."
+    },
+    {
+      "id": "dr440",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Barack Obama."
+    },
+    {
+      "id": "dr441",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Illegal immigrants."
+    },
+    {
+      "id": "dr442",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My horny, horny son."
+    },
+    {
+      "id": "dr443",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The female orgasm."
+    },
+    {
+      "id": "dr444",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Heteronormativity."
+    },
+    {
+      "id": "dr445",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Crumbs all over the damn carpet."
+    },
+    {
+      "id": "dr446",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Corporate America."
+    },
+    {
+      "id": "dr447",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The wifi password."
+    },
+    {
+      "id": "dr448",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A time-traveling Chinese general from the Shang Dynasty."
+    },
+    {
+      "id": "dr449",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A bird that shits human turds."
+    },
+    {
+      "id": "dr450",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A mopey zoo lion."
+    },
+    {
+      "id": "dr451",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Pro-life protesters."
+    },
+    {
+      "id": "dr452",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Poor life choices."
+    },
+    {
+      "id": "dr453",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My sex life."
+    },
+    {
+      "id": "dr454",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Auschwitz."
+    },
+    {
+      "id": "dr455",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cocaine for lunch."
+    },
+    {
+      "id": "dr456",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "All the dudes I’ve fucked."
+    },
+    {
+      "id": "dr457",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The clitoris."
+    },
+    {
+      "id": "dr458",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Big Bang."
+    },
+    {
+      "id": "dr459",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Land mines."
+    },
+    {
+      "id": "dr460",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The entire Mormon Tabernacle Choir."
+    },
+    {
+      "id": "dr461",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A micropig wearing a tiny raincoat and booties."
+    },
+    {
+      "id": "dr462",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Penis breath."
+    },
+    {
+      "id": "dr463",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A gambling problem."
+    },
+    {
+      "id": "dr464",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Man meat."
+    },
+    {
+      "id": "dr465",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Me time."
+    },
+    {
+      "id": "dr466",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Underground Railroad."
+    },
+    {
+      "id": "dr467",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Kayaking with my sluts."
+    },
+    {
+      "id": "dr468",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Boppin’ my flopper."
+    },
+    {
+      "id": "dr469",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Lumberjack fantasies."
+    },
+    {
+      "id": "dr470",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Goat."
+    },
+    {
+      "id": "dr471",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Women in yogurt commercials."
+    },
+    {
+      "id": "dr472",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Literally begging to die."
+    },
+    {
+      "id": "dr473",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being a motherfucking sorcerer."
+    },
+    {
+      "id": "dr474",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My Black ass."
+    },
+    {
+      "id": "dr475",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Genuine human connection."
+    },
+    {
+      "id": "dr476",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Announcing that I am about to cum."
+    },
+    {
+      "id": "dr477",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Balls."
+    },
+    {
+      "id": "dr478",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Grandma."
+    },
+    {
+      "id": "dr479",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Friction."
+    },
+    {
+      "id": "dr480",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Applying topical ointment to my grandfather’s infected penis."
+    },
+    {
+      "id": "dr481",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Farting and walking away."
+    },
+    {
+      "id": "dr482",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Being a dick to children."
+    },
+    {
+      "id": "dr483",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "One trillion dollars."
+    },
+    {
+      "id": "dr484",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Drowning the kids in the bathtub."
+    },
+    {
+      "id": "dr485",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Dying."
+    },
+    {
+      "id": "dr486",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Drinking out of the toilet and eating garbage."
+    },
+    {
+      "id": "dr487",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The gays."
+    },
+    {
+      "id": "dr488",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The screams... the terrible screams."
+    },
+    {
+      "id": "dr489",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Men."
+    },
+    {
+      "id": "dr490",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The bombing of Nagasaki."
+    },
+    {
+      "id": "dr491",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Fake tits."
+    },
+    {
+      "id": "dr492",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The Amish."
+    },
+    {
+      "id": "dr493",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Calling the cops on an innocent Black man."
+    },
+    {
+      "id": "dr494",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "My ugly face and bad personality."
+    },
+    {
+      "id": "dr495",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A bitch slap."
+    },
+    {
+      "id": "dr496",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "A brain tumor."
+    },
+    {
+      "id": "dr497",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Giggling like an anime girl."
+    },
+    {
+      "id": "dr498",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Swamp ass."
+    },
+    {
+      "id": "dr499",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "The milkman."
+    },
+    {
+      "id": "dr500",
+      "edition": "decency",
+      "pack": "decency-base",
+      "text": "Cards Against Humanity."
+    }
+  ]
+}
