@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sessions } from "@/lib/sessions-store";
+import { getSession, setSession } from "@/lib/sessions-store";
 import { startRound, checkWinCondition, endGame } from "@/lib/game-engine";
 import { loadPacks } from "@/lib/pack-loader";
 
 export async function POST(req: NextRequest) {
   try {
     const { code, hostId } = await req.json();
-    const session = sessions.get(code?.toUpperCase());
+    const session = await getSession(code?.toUpperCase());
 
     if (!session) return NextResponse.json({ error: "Room not found" }, { status: 404 });
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const { prompts, responses } = loadPacks(session.activePacks, session.edition);
     const updated = startRound(session, prompts, responses);
-    sessions.set(code.toUpperCase(), updated);
+    await setSession(code.toUpperCase(), updated);
 
     return NextResponse.json({ session: updated });
   } catch (err) {

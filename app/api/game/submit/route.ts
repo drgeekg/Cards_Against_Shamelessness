@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sessions } from "@/lib/sessions-store";
+import { getSession, setSession } from "@/lib/sessions-store";
 import { submitCards } from "@/lib/game-engine";
 
 export async function POST(req: NextRequest) {
   try {
     const { code, playerId, cardIds } = await req.json();
-    const session = sessions.get(code?.toUpperCase());
+    const session = await getSession(code?.toUpperCase());
 
     if (!session) return NextResponse.json({ error: "Room not found" }, { status: 404 });
     if (session.phase !== "submitting") {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { session: updated, allSubmitted } = submitCards(session, playerId, cardIds);
-    sessions.set(code.toUpperCase(), updated);
+    await setSession(code.toUpperCase(), updated);
 
     return NextResponse.json({ session: updated, allSubmitted });
   } catch (err) {

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sessions } from "@/lib/sessions-store";
+import { getSession, setSession } from "@/lib/sessions-store";
 import { judgePicksWinner, checkWinCondition, endGame } from "@/lib/game-engine";
 
 export async function POST(req: NextRequest) {
   try {
     const { code, judgeId, submissionIndex } = await req.json();
-    const session = sessions.get(code?.toUpperCase());
+    const session = await getSession(code?.toUpperCase());
 
     if (!session) return NextResponse.json({ error: "Room not found" }, { status: 404 });
     if (session.phase !== "judging") {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     // Check win condition
     const winner = checkWinCondition(afterJudge);
     const finalSession = winner ? endGame(afterJudge) : afterJudge;
-    sessions.set(code.toUpperCase(), finalSession);
+    await setSession(code.toUpperCase(), finalSession);
 
     return NextResponse.json({
       session: finalSession,

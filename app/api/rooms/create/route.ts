@@ -3,7 +3,7 @@ import { generateRoomCode, generateId, createSession } from "@/lib/game-engine";
 import type { Player } from "@/types/game";
 
 // In-memory store for development (replace with Vercel KV in production)
-import { sessions } from "@/lib/sessions-store";
+import { getSession, setSession, hasSession } from "@/lib/sessions-store";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     // Generate unique room code
     let code = generateRoomCode();
-    while (sessions.has(code)) {
+    while (await hasSession(code)) {
       code = generateRoomCode();
     }
 
@@ -37,10 +37,7 @@ export async function POST(req: NextRequest) {
       hostPlayer,
     });
 
-    sessions.set(code, session);
-
-    // Auto-cleanup after 4 hours
-    setTimeout(() => sessions.delete(code), 4 * 60 * 60 * 1000);
+    await setSession(code, session);
 
     return NextResponse.json({ code, playerId, session });
   } catch (err) {

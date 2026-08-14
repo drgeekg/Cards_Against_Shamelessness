@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateId, addPlayer } from "@/lib/game-engine";
-import { sessions } from "@/lib/sessions-store";
+import { getSession, setSession } from "@/lib/sessions-store";
 import type { Player } from "@/types/game";
 
 export async function POST(req: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid room code" }, { status: 400 });
     }
 
-    const session = sessions.get(code.toUpperCase());
+    const session = await getSession(code.toUpperCase());
     if (!session) {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     };
 
     const updatedSession = addPlayer(session, newPlayer);
-    sessions.set(code.toUpperCase(), updatedSession);
+    await setSession(code.toUpperCase(), updatedSession);
 
     return NextResponse.json({ playerId, session: updatedSession });
   } catch (err) {

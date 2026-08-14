@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sessions } from "@/lib/sessions-store";
+import { getSession } from "@/lib/sessions-store";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ code: string }> }
 ) {
   const { code } = await params;
-  const session = sessions.get(code.toUpperCase());
+  const session = await getSession(code.toUpperCase());
   if (!session) {
     return NextResponse.json({ error: "Room not found" }, { status: 404 });
   }
