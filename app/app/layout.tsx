@@ -4,12 +4,12 @@ import { ToastContainer } from "@/components/ui/Toast";
 import { ThemeInitializer } from "@/components/ui/ThemeInitializer";
 
 export const metadata: Metadata = {
-  title: "CardsVs — The Party Card Game",
+  title: "Cards Against Shamelessness — The Party Card Game",
   description:
-    "Cards Vs Decency & Cards Vs Sanskaar — real-time multiplayer party card game. No account needed. Just a room code and your friends.",
+    "Cards Against Shamelessness (Decency & Sanskaar editions) — real-time multiplayer party card game. No account needed. Just a room code and your friends.",
   openGraph: {
-    title: "CardsVs — The Party Card Game",
-    description: "Play with friends, no account needed.",
+    title: "Cards Against Shamelessness — The Party Card Game",
+    description: "Play Cards Against Shamelessness with friends, no account needed.",
     type: "website",
   },
 };

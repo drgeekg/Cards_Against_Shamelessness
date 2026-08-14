@@ -40,12 +40,12 @@ export function Header({ editionLocked = false, showEditionToggle = true }: Head
           style={{
             fontFamily: "'Baloo 2', sans-serif",
             fontWeight: 800,
-            fontSize: "1.1rem",
+            fontSize: "1.05rem",
             color: "var(--text)",
             letterSpacing: "-0.01em",
           }}
         >
-          {isIndian ? "Cards Vs Sanskaar" : "Cards Vs Decency"}
+          {isIndian ? "Cards Against Shamelessness (Sanskaar)" : "Cards Against Shamelessness"}
         </span>
       </Link>
 

@@ -92,7 +92,7 @@ export default function HomePage() {
   const [error, setError] = useState("");
 
   const isIndian = edition === "sanskaar";
-  const gameTitle = isIndian ? "Cards Vs Sanskaar" : "Cards Vs Decency";
+  const gameTitle = isIndian ? "Cards Against Shamelessness (Sanskaar)" : "Cards Against Shamelessness";
   const tagline = isIndian
     ? "The desi party game with zero chill and maximum cringe"
     : "The party game for horrible people with excellent taste";

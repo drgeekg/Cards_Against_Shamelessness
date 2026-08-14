@@ -1,4 +1,4 @@
-# 🃏 Launch Guide — Cards Vs Decency / Cards Vs Sanskaar
+# 🃏 Launch Guide — Cards Against Shamelessness
 
 > This is a **Next.js 16 full-stack app** — the frontend and backend (API routes) live in the same project.
 > You do **not** need to run two separate servers. One command starts everything.
