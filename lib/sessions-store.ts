@@ -15,6 +15,13 @@ const redis =
     ? new Redis({ url: redisUrl, token: redisToken })
     : null;
 
+if (!redis && process.env.NODE_ENV === "production") {
+  console.warn(
+    "[sessions-store] WARNING: UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are not configured. " +
+      "Serverless instances on Vercel will fail to share game state across requests!"
+  );
+}
+
 declare global {
   // eslint-disable-next-line no-var
   var __sessions: Map<string, GameSession> | undefined;

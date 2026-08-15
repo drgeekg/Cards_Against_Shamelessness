@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/ui/Header";
@@ -25,22 +25,33 @@ export default function RoomPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [pollInterval, setPollInterval] = useState<ReturnType<typeof setInterval> | null>(null);
+  const consecutiveFailures = useRef(0);
 
-  // Load initial session
+  // Load initial session with retry resilience for serverless/transient misses
   const fetchSession = useCallback(async () => {
     try {
       const res = await fetch(`/api/rooms/${code}`);
       if (!res.ok) {
-        if (res.status === 404) {
+        consecutiveFailures.current += 1;
+        setConnected(false);
+
+        // Require 4 consecutive failures before declaring the room as lost
+        if (consecutiveFailures.current >= 4) {
           setError("Room not found. The game may have ended.");
         }
         return;
       }
+
       const { session: data } = await res.json();
+      consecutiveFailures.current = 0;
       setSession(data);
       setConnected(true);
     } catch {
+      consecutiveFailures.current += 1;
       setConnected(false);
+      if (consecutiveFailures.current >= 4) {
+        setError("Room not found. Please check your connection.");
+      }
     } finally {
       setLoading(false);
     }
@@ -53,8 +64,8 @@ export default function RoomPage() {
       return;
     }
     fetchSession();
-    // Poll every 1.5s for real-time updates (replace with PartyKit for production)
-    const interval = setInterval(fetchSession, 1500);
+    // Poll every 2.5s for real-time updates (prevents hitting Redis rate limits)
+    const interval = setInterval(fetchSession, 2500);
     setPollInterval(interval);
     return () => clearInterval(interval);
   }, [code, playerId, name, router, fetchSession]);
