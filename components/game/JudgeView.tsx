@@ -19,6 +19,7 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
   const [revealedIndices, setRevealedIndices] = useState<number[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [picking, setPicking] = useState(false);
+  const isVoting = session.phase === "voting";
 
   const prompt = session.currentPrompt;
 
@@ -33,16 +34,17 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
   };
 
   const handlePick = async () => {
-    if (selectedIndex === null || !isJudge) return;
+    if (selectedIndex === null || (!isJudge && !isVoting)) return;
     setPicking(true);
     try {
-      const res = await fetch("/api/game/judge", {
+      const res = await fetch(isVoting ? "/api/game/vote" : "/api/game/judge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: session.code,
-          judgeId: playerId,
-          submissionIndex: selectedIndex,
+          ...(isVoting
+            ? { voterId: playerId, submissionId: session.submissions[selectedIndex]?.id }
+            : { judgeId: playerId, submissionIndex: selectedIndex }),
         }),
       });
       if (res.ok) {
@@ -75,7 +77,7 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
             marginTop: 4,
           }}
         >
-          {isJudge ? "Pick your favourite!" : "The Judge is deciding..."}
+          {isVoting ? "Vote for the funniest answer!" : isJudge ? "Pick your favourite!" : "The Judge is deciding..."}
         </h2>
         {!isJudge && (
           <p style={{ color: "var(--text-muted)", fontFamily: "Inter, sans-serif", fontSize: "0.85rem", marginTop: 4 }}>
@@ -92,7 +94,7 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
       )}
 
       {/* Reveal all button (judge only) */}
-      {isJudge && revealedIndices.length < session.submissions.length && (
+      {(isJudge || isVoting) && revealedIndices.length < session.submissions.length && (
         <Button variant="secondary" size="sm" onClick={handleRevealAll}>
           Reveal All Cards
         </Button>
@@ -126,7 +128,7 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
                       layoutId={`judge-card-${card.id}`}
                       isSelected={isSelected}
                       isDimmed={selectedIndex !== null && !isSelected}
-                      onClick={isJudge ? () => setSelectedIndex(isSelected ? null : idx) : undefined}
+                      onClick={(isJudge || isVoting) ? () => setSelectedIndex(isSelected ? null : idx) : undefined}
                       size="md"
                     />
                   ) : (
@@ -170,7 +172,7 @@ export function JudgeView({ session, playerId, isJudge, onSessionUpdate }: Judge
       </div>
 
       {/* Pick button (judge only, after selecting) */}
-      {isJudge && selectedIndex !== null && (
+      {(isJudge || isVoting) && selectedIndex !== null && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

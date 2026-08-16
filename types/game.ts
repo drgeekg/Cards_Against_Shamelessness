@@ -33,6 +33,7 @@ export type GamePhase =
   | "lobby"
   | "submitting"
   | "judging"
+  | "voting"
   | "reveal"
   | "gameOver";
 
@@ -42,6 +43,7 @@ export type GameSession = {
   activePacks: string[];
   targetScore: number;      // default 7
   handSize: number;         // default 7
+  totalRounds: number;      // host-selected number of rounds
   nsfw: boolean;            // default false
   roundTimer: number | null; // seconds, null = off
   players: Player[];
@@ -49,11 +51,15 @@ export type GameSession = {
   round: number;
   currentPrompt: PromptCard | null;
   submissions: Submission[];
+  votes: Record<string, string>; // voter id -> submission id
+  usedResponseIds: string[];      // submitted cards are never dealt again
+  winningSubmissionId: string | null;
   phase: GamePhase;
   createdAt: number;
 };
 
 export type Submission = {
+  id: string;
   playerId: string;
   cardIds: string[];
   revealed: boolean;

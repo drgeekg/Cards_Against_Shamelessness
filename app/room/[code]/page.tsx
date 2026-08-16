@@ -24,7 +24,6 @@ export default function RoomPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [pollInterval, setPollInterval] = useState<ReturnType<typeof setInterval> | null>(null);
   const consecutiveFailures = useRef(0);
 
   // Load initial session with retry resilience for serverless/transient misses
@@ -46,6 +45,9 @@ export default function RoomPage() {
       consecutiveFailures.current = 0;
       setSession(data);
       setConnected(true);
+      if (playerId && data.players.some((p: { id: string; connected: boolean }) => p.id === playerId && !p.connected)) {
+        await fetch("/api/rooms/join", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code, playerId, name, avatarColor }) });
+      }
     } catch {
       consecutiveFailures.current += 1;
       setConnected(false);
@@ -55,7 +57,7 @@ export default function RoomPage() {
     } finally {
       setLoading(false);
     }
-  }, [code, setSession, setConnected]);
+  }, [code, playerId, name, avatarColor, setSession, setConnected]);
 
   useEffect(() => {
     if (!code) return;
@@ -66,7 +68,6 @@ export default function RoomPage() {
     fetchSession();
     // Poll every 2.5s for real-time updates (prevents hitting Redis rate limits)
     const interval = setInterval(fetchSession, 2500);
-    setPollInterval(interval);
     return () => clearInterval(interval);
   }, [code, playerId, name, router, fetchSession]);
 
@@ -158,7 +159,7 @@ export default function RoomPage() {
             </motion.div>
           )}
 
-          {phase === "judging" && (
+          {(phase === "judging" || phase === "voting") && (
             <motion.div
               key="judging"
               initial={{ opacity: 0, y: 20 }}

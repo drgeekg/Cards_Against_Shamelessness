@@ -5,7 +5,7 @@ import type { Player } from "@/types/game";
 
 export async function POST(req: NextRequest) {
   try {
-    const { code, name, avatarColor } = await req.json();
+    const { code, name, avatarColor, playerId: reconnectId } = await req.json();
 
     if (!name?.trim()) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
@@ -17,6 +17,12 @@ export async function POST(req: NextRequest) {
     const session = await getSession(code.toUpperCase());
     if (!session) {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });
+    }
+    const existing = reconnectId && session.players.find((p) => p.id === reconnectId);
+    if (existing) {
+      const updatedSession = { ...session, players: session.players.map((p) => p.id === reconnectId ? { ...p, connected: true } : p) };
+      await setSession(code.toUpperCase(), updatedSession);
+      return NextResponse.json({ playerId: reconnectId, session: updatedSession, reconnected: true });
     }
     if (session.phase !== "lobby") {
       return NextResponse.json({ error: "Game already in progress" }, { status: 403 });

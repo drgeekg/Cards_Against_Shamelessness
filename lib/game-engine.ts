@@ -44,6 +44,7 @@ export function createSession(opts: CreateSessionOpts): GameSession {
     activePacks: opts.activePacks ?? [`${opts.edition}-base`],
     targetScore: opts.targetScore ?? 7,
     handSize: opts.handSize ?? 7,
+    totalRounds: opts.targetScore ?? 7,
     nsfw: opts.nsfw ?? false,
     roundTimer: opts.roundTimer ?? null,
     players: [opts.hostPlayer],
@@ -51,6 +52,9 @@ export function createSession(opts: CreateSessionOpts): GameSession {
     round: 0,
     currentPrompt: null,
     submissions: [],
+    votes: {},
+    usedResponseIds: [],
+    winningSubmissionId: null,
     phase: "lobby",
     createdAt: Date.now(),
   };
@@ -95,7 +99,8 @@ export function dealHands(
   allResponses: ResponseCard[]
 ): GameSession {
   const usedIds = new Set(session.players.flatMap((p) => p.hand));
-  const available = shuffle(allResponses.filter((r) => !usedIds.has(r.id)));
+  const permanentlyUsed = new Set([...usedIds, ...session.usedResponseIds]);
+  const available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
   let cardIdx = 0;
 
   const players = session.players.map((player) => {
@@ -125,7 +130,7 @@ export function startRound(
   allPrompts: PromptCard[],
   allResponses: ResponseCard[]
 ): GameSession {
-  let s: GameSession = { ...session, phase: "submitting", submissions: [], round: session.round + 1 };
+  let s: GameSession = { ...session, phase: "submitting", submissions: [], votes: {}, winningSubmissionId: null, round: session.round + 1 };
   s = drawPrompt(s, allPrompts);
   s = dealHands(s, allResponses);
   return s;
@@ -155,7 +160,7 @@ export function submitCards(
     p.id === playerId ? { ...p, hand: p.hand.filter((id) => !cardIds.includes(id)) } : p
   );
 
-  const newSubmission: Submission = { playerId, cardIds, revealed: false };
+  const newSubmission: Submission = { id: generateId(), playerId, cardIds, revealed: false };
   const submissions = shuffle([...session.submissions, newSubmission]);
 
   const activePlayers = session.players.filter(
@@ -167,7 +172,8 @@ export function submitCards(
     ...session,
     players,
     submissions,
-    phase: allSubmitted ? "judging" : "submitting",
+    phase: allSubmitted ? "voting" : "submitting",
+    usedResponseIds: [...session.usedResponseIds, ...cardIds],
   };
 
   return { session: newSession, allSubmitted };
@@ -188,9 +194,7 @@ export function judgePicksWinner(
   judgeId: string,
   submissionIndex: number
 ): { session: GameSession; winnerId: string | null } {
-  if (session.players[session.judgeIndex]?.id !== judgeId) {
-    return { session, winnerId: null };
-  }
+  if (!session.players.find((p) => p.id === judgeId && p.connected)) return { session, winnerId: null };
 
   const winning = session.submissions[submissionIndex];
   if (!winning) return { session, winnerId: null };
@@ -201,6 +205,28 @@ export function judgePicksWinner(
 
   const newSession: GameSession = { ...session, players, phase: "reveal" };
   return { session: newSession, winnerId: winning.playerId };
+}
+
+export function castVote(session: GameSession, voterId: string, submissionId: string) {
+  const voter = session.players.find((p) => p.id === voterId && p.connected);
+  const submission = session.submissions.find((s) => s.id === submissionId);
+  if (!voter || !submission || voterId === submission.playerId) return { session, complete: false };
+  const votes = { ...session.votes, [voterId]: submissionId };
+  // Every connected player gets one vote; the API still prevents voting for
+  // that player's own submission.
+  const eligible = session.players.filter((p) => p.connected);
+  const complete = Object.keys(votes).length >= eligible.length;
+  return { session: { ...session, votes, phase: complete ? "reveal" : "voting" as GameSession["phase"] }, complete };
+}
+
+export function resolveVotes(session: GameSession): GameSession {
+  const counts = new Map<string, number>();
+  Object.values(session.votes).forEach((id) => counts.set(id, (counts.get(id) ?? 0) + 1));
+  const max = Math.max(0, ...counts.values());
+  const winner = session.submissions.find((s) => (counts.get(s.id) ?? 0) === max);
+  if (!winner || max === 0) return session;
+  const players = session.players.map((p) => p.id === winner.playerId ? { ...p, score: p.score + 1 } : p);
+  return { ...session, players, winningSubmissionId: winner.id, phase: "reveal" };
 }
 
 export function checkWinCondition(session: GameSession): Player | null {
@@ -217,6 +243,8 @@ export function advanceRound(session: GameSession): GameSession {
     submissions: [],
     currentPrompt: null,
     phase: "submitting",
+    votes: {},
+    winningSubmissionId: null,
   };
 }
 
