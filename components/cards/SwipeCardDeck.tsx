@@ -30,7 +30,7 @@ export function SwipeCardDeck({
   selectedButtonLabel = "Selected",
 }: SwipeCardDeckProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(null);
+  const [swipeDirection, setSwipeDirection] = useState<"left" | "right">("right");
 
   // Keep index within bounds if items change
   useEffect(() => {
@@ -43,7 +43,12 @@ export function SwipeCardDeck({
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-18, 18]);
-  const opacity = useTransform(x, [-150, 0, 150], [0.6, 1, 0.6]);
+  const opacity = useTransform(x, [-180, 0, 180], [0.5, 1, 0.5]);
+
+  // Reset x motion value whenever card index changes so the new card is centered
+  useEffect(() => {
+    x.set(0);
+  }, [currentIndex, x]);
 
   if (items.length === 0) {
     return (
@@ -57,31 +62,34 @@ export function SwipeCardDeck({
 
   const handleNext = () => {
     setSwipeDirection("right");
+    x.set(0);
     setCurrentIndex((prev) => (prev + 1) % items.length);
   };
 
   const handlePrev = () => {
     setSwipeDirection("left");
+    x.set(0);
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
   const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const swipeThreshold = 50;
-    const velocityThreshold = 300;
+    const swipeThreshold = 55;
+    const velocityThreshold = 250;
 
     if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
       // Swiped right -> next card (looping)
       handleNext();
     } else if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
-      // Swiped left -> prev card (or next in loop)
+      // Swiped left -> prev card (looping)
       handlePrev();
+    } else {
+      // Small drag -> spring back to center
+      x.set(0);
     }
   };
 
   const currentItem = items[currentIndex];
   const isSelected = selectedIds.includes(currentItem.id);
-  const nextItem = items[(currentIndex + 1) % items.length];
-  const prevItem = items[(currentIndex - 1 + items.length) % items.length];
 
   return (
     <div className="w-full flex flex-col items-center gap-3">
@@ -112,7 +120,7 @@ export function SwipeCardDeck({
             type="button"
             onClick={handlePrev}
             aria-label="Previous card"
-            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors touch-target"
             style={{
               backgroundColor: "var(--surface)",
               border: "1px solid var(--border-strong)",
@@ -125,7 +133,7 @@ export function SwipeCardDeck({
             type="button"
             onClick={handleNext}
             aria-label="Next card"
-            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors touch-target"
             style={{
               backgroundColor: "var(--surface)",
               border: "1px solid var(--border-strong)",
@@ -174,18 +182,19 @@ export function SwipeCardDeck({
             style={{ x, rotate, opacity }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.65}
+            dragElastic={0.8}
+            dragSnapToOrigin={true}
             onDragEnd={handleDragEnd}
             initial={{ scale: 0.92, opacity: 0, y: 15 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
+            animate={{ scale: 1, opacity: 1, y: 0, x: 0 }}
             exit={{
-              x: swipeDirection === "right" ? 280 : -280,
+              x: swipeDirection === "right" ? 340 : -340,
               opacity: 0,
               scale: 0.85,
-              rotate: swipeDirection === "right" ? 20 : -20,
-              transition: { duration: 0.2 },
+              rotate: swipeDirection === "right" ? 22 : -22,
+              transition: { duration: 0.22, ease: "easeOut" },
             }}
-            transition={{ type: "spring", stiffness: 350, damping: 26 }}
+            transition={{ type: "spring", stiffness: 360, damping: 28 }}
             className="absolute cursor-grab active:cursor-grabbing w-[270px] sm:w-[280px] h-[330px] sm:h-[350px] z-10"
           >
             <div className="relative w-full h-full">
@@ -260,7 +269,10 @@ export function SwipeCardDeck({
           <button
             key={item.id}
             type="button"
-            onClick={() => setCurrentIndex(idx)}
+            onClick={() => {
+              x.set(0);
+              setCurrentIndex(idx);
+            }}
             aria-label={`Jump to card ${idx + 1}`}
             className="rounded-full transition-all"
             style={{
