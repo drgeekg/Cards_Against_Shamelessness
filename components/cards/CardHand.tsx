@@ -36,26 +36,18 @@ export function CardHand({
   maxSelect = 1,
   disabled = false,
 }: CardHandProps) {
-  const isMaxSelected = selectedIds.length >= maxSelect;
-
   return (
-    <div
-      className="relative flex items-end justify-center"
-      style={{ minHeight: 240, width: "100%" }}
-    >
-      {/* Card row / fan */}
+    <div className="w-full flex flex-col items-center">
+      {/* 2-col on mobile, flex-wrap on tablet/desktop */}
       <div
-        className="flex gap-3 flex-wrap justify-center"
-        style={{ padding: "0 1rem 0.5rem" }}
+        className="grid grid-cols-2 sm:flex sm:flex-wrap justify-items-center justify-center gap-2.5 sm:gap-3.5 w-full max-w-4xl px-2 sm:px-4"
       >
         <AnimatePresence mode="popLayout">
           {cards.map((card, i) => {
             const isSelected = selectedIds.includes(card.id);
             const isSubmitted = submittedIds.includes(card.id);
-            const isDimmed =
-              !isSelected && isMaxSelected && !isSubmitted;
 
-            if (isSubmitted) return null; // card has flown away
+            if (isSubmitted) return null;
 
             return (
               <motion.div
@@ -66,12 +58,13 @@ export function CardHand({
                 animate="visible"
                 exit="exit"
                 layout
+                className="w-full flex justify-center"
               >
                 <ResponseCard
                   card={card}
                   layoutId={`hand-card-${card.id}`}
                   isSelected={isSelected}
-                  isDimmed={isDimmed}
+                  isDimmed={false}
                   onClick={() => {
                     if (!disabled && !isSubmitted) {
                       onSelect(card.id);
@@ -91,7 +84,7 @@ export function CardHand({
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center"
+          className="text-center py-6"
           style={{ color: "var(--text-muted)", fontFamily: "Inter, sans-serif", fontSize: "0.9rem" }}
         >
           Your hand is empty...

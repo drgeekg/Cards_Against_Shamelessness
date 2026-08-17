@@ -254,3 +254,14 @@ body {
   background: rgba(var(--surface-rgb, 26,26,26), 0.7);
   border: 1px solid var(--border);
 }
+
+/* ─── MOBILE SAFE AREA & TOUCH TARGETS ───────────────────── */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 16px));
+}
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+

@@ -8,10 +8,12 @@ interface PlayerState {
   avatarColor: string;
   hand: string[];          // response card ids in hand
   isHost: boolean;
+  exitedRoomCode: string | null;
 
   setPlayer: (opts: { playerId: string; name: string; avatarColor: string; isHost: boolean }) => void;
   setHand: (hand: string[]) => void;
   removeFromHand: (cardId: string) => void;
+  setExitedRoom: (code: string | null) => void;
   clearPlayer: () => void;
 }
 
@@ -32,14 +34,16 @@ export const usePlayerStore = create<PlayerState>()(
       avatarColor: getRandomColor(),
       hand: [],
       isHost: false,
+      exitedRoomCode: null,
 
       setPlayer: ({ playerId, name, avatarColor, isHost }) =>
         set({ playerId, name, avatarColor, isHost }),
       setHand: (hand) => set({ hand }),
       removeFromHand: (cardId) =>
         set((s) => ({ hand: s.hand.filter((id) => id !== cardId) })),
+      setExitedRoom: (exitedRoomCode) => set({ exitedRoomCode }),
       clearPlayer: () =>
-        set({ playerId: null, name: "", hand: [], isHost: false }),
+        set({ playerId: null, name: "", hand: [], isHost: false, exitedRoomCode: null }),
     }),
     {
       name: "cardsvs-player",
@@ -47,6 +51,7 @@ export const usePlayerStore = create<PlayerState>()(
         playerId: s.playerId,
         name: s.name,
         avatarColor: s.avatarColor,
+        exitedRoomCode: s.exitedRoomCode,
       }),
     }
   )

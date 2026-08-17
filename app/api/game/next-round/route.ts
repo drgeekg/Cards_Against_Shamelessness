@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession, setSession } from "@/lib/sessions-store";
-import { advanceRound, startRound } from "@/lib/game-engine";
+import { advanceRound, startRound, checkWinCondition, endGame } from "@/lib/game-engine";
 import { loadPacks } from "@/lib/pack-loader";
 
 export async function POST(req: NextRequest) {
@@ -12,6 +12,14 @@ export async function POST(req: NextRequest) {
 
     const host = session.players.find((p) => p.id === hostId && p.isHost);
     if (!host) return NextResponse.json({ error: "Only host can advance round" }, { status: 403 });
+
+    // Check if win condition is met
+    const winner = checkWinCondition(session);
+    if (winner) {
+      const ended = endGame(session);
+      await setSession(code.toUpperCase(), ended);
+      return NextResponse.json({ session: ended, gameOver: true, winner });
+    }
 
     const { prompts, responses } = loadPacks(session.activePacks, session.edition);
     const advanced = advanceRound(session);

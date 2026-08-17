@@ -35,6 +35,7 @@ export type GamePhase =
   | "judging"
   | "voting"
   | "reveal"
+  | "tiebreaker"
   | "gameOver";
 
 export type GameSession = {
@@ -42,8 +43,10 @@ export type GameSession = {
   edition: "decency" | "sanskaar";
   activePacks: string[];
   targetScore: number;      // default 7
-  handSize: number;         // default 7
+  handSize: number;         // default 7 (initial deal size)
   totalRounds: number;      // host-selected number of rounds
+  minCardsRefillThreshold: number; // default 2: if cards < this, refill
+  refillCardCount: number;         // default 3: cards dealt on refill
   nsfw: boolean;            // default false
   roundTimer: number | null; // seconds, null = off
   players: Player[];
@@ -53,7 +56,11 @@ export type GameSession = {
   submissions: Submission[];
   votes: Record<string, string>; // voter id -> submission id
   usedResponseIds: string[];      // submitted cards are never dealt again
+  usedPromptIds: string[];        // tracked prompt IDs to prevent repeats
+  shuffledThisRound: string[];    // player IDs who already shuffled this round
+  tiebreakerPlayerIds: string[];  // player IDs involved in an active tiebreaker
   winningSubmissionId: string | null;
+  gameStarted: boolean;
   phase: GamePhase;
   createdAt: number;
 };

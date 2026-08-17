@@ -82,13 +82,14 @@ function ColorPicker({ selected, onSelect }: { selected: string; onSelect: (c: s
 export default function HomePage() {
   const router = useRouter();
   const { edition } = useUIStore();
-  const { name, avatarColor, setPlayer } = usePlayerStore();
+  const { name, avatarColor, exitedRoomCode, setPlayer, setExitedRoom } = usePlayerStore();
 
   const [mode, setMode] = useState<"idle" | "create" | "join">("idle");
   const [inputName, setInputName] = useState(name || "");
   const [joinCode, setJoinCode] = useState("");
   const [selectedColor, setSelectedColor] = useState(avatarColor || getRandomColor());
   const [loading, setLoading] = useState(false);
+  const [rejoining, setRejoining] = useState(false);
   const [error, setError] = useState("");
 
   const isIndian = edition === "sanskaar";
@@ -96,6 +97,41 @@ export default function HomePage() {
   const tagline = isIndian
     ? "The desi party game with zero chill and maximum cringe"
     : "The party game for horrible people with excellent taste";
+
+  const handleRejoin = async () => {
+    if (!exitedRoomCode) return;
+    setRejoining(true);
+    setError("");
+    try {
+      const res = await fetch("/api/rooms/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: exitedRoomCode,
+          name: inputName.trim() || name || "Player",
+          avatarColor: selectedColor,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Room no longer available");
+      }
+      setPlayer({
+        playerId: data.playerId,
+        name: inputName.trim() || name || "Player",
+        avatarColor: selectedColor,
+        isHost: false,
+      });
+      const targetCode = exitedRoomCode;
+      setExitedRoom(null);
+      router.push(`/room/${targetCode}`);
+    } catch (e: any) {
+      setError(e.message || "Could not rejoin room.");
+      setExitedRoom(null);
+    } finally {
+      setRejoining(false);
+    }
+  };
 
   const handleCreate = async () => {
     if (!inputName.trim()) { setError("Please enter your name"); return; }
@@ -110,6 +146,7 @@ export default function HomePage() {
       if (!res.ok) throw new Error("Failed to create room");
       const { code, playerId } = await res.json();
       setPlayer({ playerId, name: inputName.trim(), avatarColor: selectedColor, isHost: true });
+      setExitedRoom(null);
       router.push(`/room/${code}`);
     } catch {
       setError("Could not create room. Try again.");
@@ -139,6 +176,7 @@ export default function HomePage() {
       }
       const { playerId } = await res.json();
       setPlayer({ playerId, name: inputName.trim(), avatarColor: selectedColor, isHost: false });
+      setExitedRoom(null);
       router.push(`/room/${joinCode.trim().toUpperCase()}`);
     } catch (e: any) {
       setError(e.message || "Could not join room.");
@@ -243,26 +281,72 @@ export default function HomePage() {
           {mode === "idle" && (
             <motion.div
               key="idle"
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col items-center gap-4 w-full max-w-md"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: 0.5 }}
             >
-              <Button
-                size="lg"
-                variant="primary"
-                onClick={() => setMode("create")}
-              >
-                Create Room <ArrowRight size={18} />
-              </Button>
-              <Button
-                size="lg"
-                variant="secondary"
-                onClick={() => setMode("join")}
-              >
-                Join Room
-              </Button>
+              {/* Rejoin Prompt Banner */}
+              {exitedRoomCode && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full rounded-2xl p-4 flex items-center justify-between shadow-lg"
+                  style={{
+                    backgroundColor: "var(--surface)",
+                    border: "1.5px solid var(--accent-primary)",
+                  }}
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-[11px] font-bold tracking-wider uppercase text-[var(--accent-primary)]">
+                      Active Game Session
+                    </span>
+                    <span className="font-bold text-sm" style={{ color: "var(--text)" }}>
+                      Rejoin Room {exitedRoomCode}?
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      loading={rejoining}
+                      onClick={handleRejoin}
+                      className="font-bold text-xs px-3 py-1.5"
+                    >
+                      Rejoin →
+                    </Button>
+                    <button
+                      onClick={() => setExitedRoom(null)}
+                      className="p-1 rounded-full text-xs opacity-60 hover:opacity-100"
+                      style={{ color: "var(--text-muted)" }}
+                      aria-label="Dismiss rejoin"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full justify-center">
+                <Button
+                  size="lg"
+                  variant="primary"
+                  onClick={() => setMode("create")}
+                  className="w-full sm:w-auto"
+                >
+                  Create Room <ArrowRight size={18} />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  onClick={() => setMode("join")}
+                  className="w-full sm:w-auto"
+                >
+                  Join Room
+                </Button>
+              </div>
             </motion.div>
           )}
 

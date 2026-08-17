@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const session = await getSession(code?.toUpperCase());
 
     if (!session) return NextResponse.json({ error: "Room not found" }, { status: 404 });
-    if (session.phase !== "submitting") {
+    if (session.phase !== "submitting" && session.phase !== "tiebreaker") {
       return NextResponse.json({ error: "Not in submission phase" }, { status: 400 });
     }
 
@@ -24,7 +24,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { session: updated, allSubmitted } = submitCards(session, playerId, cardIds);
+    const { session: updated, allSubmitted, error } = submitCards(session, playerId, cardIds);
+    if (error) {
+      return NextResponse.json({ error }, { status: 400 });
+    }
     await setSession(code.toUpperCase(), updated);
 
     return NextResponse.json({ session: updated, allSubmitted });

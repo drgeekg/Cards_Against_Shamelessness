@@ -17,14 +17,37 @@ interface LobbyRoomProps {
 export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps) {
   const [starting, setStarting] = useState(false);
   const [kicking, setKicking] = useState<string | null>(null);
-  const [targetScore, setTargetScore] = useState(session.targetScore);
+  const [targetScore, setTargetScore] = useState(session.targetScore ?? 7);
+  const [handSize, setHandSize] = useState(session.handSize ?? 7);
+  const [totalRounds, setTotalRounds] = useState(session.totalRounds ?? 10);
+  const [minRefillThreshold, setMinRefillThreshold] = useState(session.minCardsRefillThreshold ?? 2);
+  const [refillCount, setRefillCount] = useState(session.refillCardCount ?? 3);
 
   const isHost = session.players.find((p) => p.id === playerId)?.isHost ?? false;
-  const judgePlayer = session.players[session.judgeIndex];
   const connectedPlayers = session.players.filter((p) => p.connected);
   const canStart = connectedPlayers.length >= 3;
 
   const packs = getPackMeta().filter((p) => p.edition === session.edition || p.edition === "both");
+
+  const syncSettings = async (newSettings: Partial<GameSession>) => {
+    try {
+      const res = await fetch("/api/rooms/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: session.code,
+          hostId: playerId,
+          settings: newSettings,
+        }),
+      });
+      if (res.ok) {
+        const { session: updated } = await res.json();
+        onSessionUpdate(updated);
+      }
+    } catch (e) {
+      console.error("Failed to sync settings", e);
+    }
+  };
 
   const handleStartGame = async () => {
     setStarting(true);
@@ -57,7 +80,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-8">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-6 sm:py-8 flex flex-col gap-6 sm:gap-8 pb-safe">
       {/* Room code */}
       <RoomCode
         code={session.code}
@@ -104,7 +127,6 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                   name={player.name}
                   avatarColor={player.avatarColor}
                   score={player.score}
-                  isJudge={player.id === judgePlayer?.id}
                   isHost={player.isHost}
                   isConnected={player.connected}
                   isYou={player.id === playerId}
@@ -114,7 +136,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                   <motion.button
                     onClick={() => handleKick(player.id)}
                     aria-label={`Kick ${player.name}`}
-                    className="flex items-center justify-center w-7 h-7 rounded-lg opacity-40 hover:opacity-100"
+                    className="flex items-center justify-center w-7 h-7 rounded-lg opacity-40 hover:opacity-100 touch-target"
                     style={{
                       backgroundColor: "var(--danger)",
                       color: "#fff",
@@ -135,7 +157,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
       {/* Host settings */}
       {isHost && (
         <motion.div
-          className="rounded-2xl p-5 flex flex-col gap-4"
+          className="rounded-2xl p-4 sm:p-5 flex flex-col gap-5"
           style={{
             backgroundColor: "var(--surface)",
             border: "1px solid var(--border-strong)",
@@ -154,12 +176,12 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                 fontSize: "1rem",
               }}
             >
-              Game Settings
+              Game Configuration
             </h3>
           </div>
 
-          {/* Target score */}
-          <div className="flex flex-col gap-2">
+          {/* Target score slider */}
+          <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <label
                 style={{
@@ -169,14 +191,14 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                   fontWeight: 600,
                 }}
               >
-                TARGET SCORE
+                TARGET SCORE TO WIN
               </label>
               <span
                 style={{
                   fontFamily: "'Baloo 2', sans-serif",
                   fontWeight: 700,
                   color: "var(--accent-primary)",
-                  fontSize: "1.1rem",
+                  fontSize: "1.05rem",
                 }}
               >
                 {targetScore} pts
@@ -187,16 +209,146 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
               min={3}
               max={15}
               value={targetScore}
-              onChange={(e) => setTargetScore(Number(e.target.value))}
-              className="w-full"
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setTargetScore(val);
+                syncSettings({ targetScore: val });
+              }}
+              className="w-full h-2 rounded-lg cursor-pointer"
               style={{ accentColor: "var(--accent-primary)" }}
             />
-            <div
-              className="flex justify-between text-xs"
-              style={{ color: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}
-            >
-              <span>3 pts (quick)</span>
-              <span>15 pts (long)</span>
+            <div className="flex justify-between text-[11px]" style={{ color: "var(--text-muted)" }}>
+              <span>3 pts (fast)</span>
+              <span>15 pts (epic)</span>
+            </div>
+          </div>
+
+          {/* Starting hand size slider */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <label
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.8rem",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 600,
+                }}
+              >
+                STARTING HAND SIZE
+              </label>
+              <span
+                style={{
+                  fontFamily: "'Baloo 2', sans-serif",
+                  fontWeight: 700,
+                  color: "var(--accent-primary)",
+                  fontSize: "1.05rem",
+                }}
+              >
+                {handSize} cards
+              </span>
+            </div>
+            <input
+              type="range"
+              min={3}
+              max={10}
+              value={handSize}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setHandSize(val);
+                syncSettings({ handSize: val });
+              }}
+              className="w-full h-2 rounded-lg cursor-pointer"
+              style={{ accentColor: "var(--accent-primary)" }}
+            />
+            <div className="flex justify-between text-[11px]" style={{ color: "var(--text-muted)" }}>
+              <span>3 cards</span>
+              <span>10 cards</span>
+            </div>
+          </div>
+
+          {/* Total rounds slider */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <label
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.8rem",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 600,
+                }}
+              >
+                MAX ROUNDS LIMIT
+              </label>
+              <span
+                style={{
+                  fontFamily: "'Baloo 2', sans-serif",
+                  fontWeight: 700,
+                  color: "var(--accent-primary)",
+                  fontSize: "1.05rem",
+                }}
+              >
+                {totalRounds} rounds
+              </span>
+            </div>
+            <input
+              type="range"
+              min={3}
+              max={25}
+              value={totalRounds}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setTotalRounds(val);
+                syncSettings({ totalRounds: val });
+              }}
+              className="w-full h-2 rounded-lg cursor-pointer"
+              style={{ accentColor: "var(--accent-primary)" }}
+            />
+            <div className="flex justify-between text-[11px]" style={{ color: "var(--text-muted)" }}>
+              <span>3 rounds</span>
+              <span>25 rounds</span>
+            </div>
+          </div>
+
+          {/* Refill rule threshold */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <label
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.8rem",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 600,
+                }}
+              >
+                REFILL CARDS WHEN BELOW
+              </label>
+              <span
+                style={{
+                  fontFamily: "'Baloo 2', sans-serif",
+                  fontWeight: 700,
+                  color: "var(--accent-primary)",
+                  fontSize: "1.05rem",
+                }}
+              >
+                {minRefillThreshold} cards (+{refillCount} cards)
+              </span>
+            </div>
+            <input
+              type="range"
+              min={1}
+              max={4}
+              value={minRefillThreshold}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setMinRefillThreshold(val);
+                syncSettings({ minCardsRefillThreshold: val });
+              }}
+              className="w-full h-2 rounded-lg cursor-pointer"
+              style={{ accentColor: "var(--accent-primary)" }}
+            />
+            <div className="flex justify-between text-[11px]" style={{ color: "var(--text-muted)" }}>
+              <span>When &lt; 1 card</span>
+              <span>When &lt; 4 cards</span>
             </div>
           </div>
 
@@ -210,7 +362,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                 fontWeight: 600,
               }}
             >
-              CARD PACKS
+              ACTIVE CARD PACKS
             </label>
             <div className="flex flex-wrap gap-2">
               {packs.map((pack) => {
@@ -218,7 +370,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
                 return (
                   <motion.div
                     key={pack.id}
-                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold cursor-not-allowed"
+                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold cursor-default"
                     style={{
                       backgroundColor: isActive ? "var(--accent-primary)" : "var(--surface-2)",
                       color: isActive ? "var(--accent-on-primary)" : "var(--text-muted)",

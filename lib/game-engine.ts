@@ -33,6 +33,9 @@ export interface CreateSessionOpts {
   activePacks?: string[];
   targetScore?: number;
   handSize?: number;
+  totalRounds?: number;
+  minCardsRefillThreshold?: number;
+  refillCardCount?: number;
   nsfw?: boolean;
   roundTimer?: number | null;
 }
@@ -44,7 +47,9 @@ export function createSession(opts: CreateSessionOpts): GameSession {
     activePacks: opts.activePacks ?? [`${opts.edition}-base`],
     targetScore: opts.targetScore ?? 7,
     handSize: opts.handSize ?? 7,
-    totalRounds: opts.targetScore ?? 7,
+    totalRounds: opts.totalRounds ?? 10,
+    minCardsRefillThreshold: opts.minCardsRefillThreshold ?? 2,
+    refillCardCount: opts.refillCardCount ?? 3,
     nsfw: opts.nsfw ?? false,
     roundTimer: opts.roundTimer ?? null,
     players: [opts.hostPlayer],
@@ -54,7 +59,11 @@ export function createSession(opts: CreateSessionOpts): GameSession {
     submissions: [],
     votes: {},
     usedResponseIds: [],
+    usedPromptIds: [],
+    shuffledThisRound: [],
+    tiebreakerPlayerIds: [],
     winningSubmissionId: null,
+    gameStarted: false,
     phase: "lobby",
     createdAt: Date.now(),
   };
@@ -94,17 +103,24 @@ export function kickPlayer(session: GameSession, playerId: string): GameSession 
 
 // ── Card management ───────────────────────────────────────────────────────────
 
-export function dealHands(
+/**
+ * Initial full deal: every connected player gets session.handSize cards.
+ */
+export function dealHandsFull(
   session: GameSession,
   allResponses: ResponseCard[]
 ): GameSession {
-  const usedIds = new Set(session.players.flatMap((p) => p.hand));
-  const permanentlyUsed = new Set([...usedIds, ...session.usedResponseIds]);
-  const available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
-  let cardIdx = 0;
+  const currentHandIds = new Set(session.players.flatMap((p) => p.hand));
+  const permanentlyUsed = new Set([...currentHandIds, ...session.usedResponseIds]);
+  let available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
+  
+  if (available.length < session.players.length * session.handSize) {
+    available = shuffle(allResponses.filter((r) => !currentHandIds.has(r.id)));
+  }
 
+  let cardIdx = 0;
   const players = session.players.map((player) => {
-    const needed = session.handSize - player.hand.length;
+    const needed = Math.max(0, session.handSize - player.hand.length);
     const newCards = available.slice(cardIdx, cardIdx + needed).map((c) => c.id);
     cardIdx += needed;
     return { ...player, hand: [...player.hand, ...newCards] };
@@ -113,14 +129,155 @@ export function dealHands(
   return { ...session, players };
 }
 
+/**
+ * Subsequent round refill:
+ * Hand is NOT refilled automatically every round.
+ * Only players with < minCardsRefillThreshold (default 2) receive refillCardCount (default 3) new cards.
+ */
+export function refillHands(
+  session: GameSession,
+  allResponses: ResponseCard[]
+): GameSession {
+  const currentHandIds = new Set(session.players.flatMap((p) => p.hand));
+  const permanentlyUsed = new Set([...currentHandIds, ...session.usedResponseIds]);
+  let available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
+
+  if (available.length < session.players.length * (session.refillCardCount ?? 3)) {
+    available = shuffle(allResponses.filter((r) => !currentHandIds.has(r.id)));
+  }
+
+  let cardIdx = 0;
+  const players = session.players.map((player) => {
+    if (!player.connected) return player;
+    if (player.hand.length < (session.minCardsRefillThreshold ?? 2)) {
+      const count = session.refillCardCount ?? 3;
+      const newCards = available.slice(cardIdx, cardIdx + count).map((c) => c.id);
+      cardIdx += count;
+      return { ...player, hand: [...player.hand, ...newCards] };
+    }
+    return player;
+  });
+
+  return { ...session, players };
+}
+
+/**
+ * Deal extra cards to specific players (used for tiebreakers).
+ */
+export function dealCardsToPlayers(
+  session: GameSession,
+  playerIds: string[],
+  count: number,
+  allResponses: ResponseCard[]
+): GameSession {
+  const currentHandIds = new Set(session.players.flatMap((p) => p.hand));
+  const permanentlyUsed = new Set([...currentHandIds, ...session.usedResponseIds]);
+  let available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
+
+  if (available.length < playerIds.length * count) {
+    available = shuffle(allResponses.filter((r) => !currentHandIds.has(r.id)));
+  }
+
+  let cardIdx = 0;
+  const targetSet = new Set(playerIds);
+  const players = session.players.map((player) => {
+    if (targetSet.has(player.id)) {
+      const newCards = available.slice(cardIdx, cardIdx + count).map((c) => c.id);
+      cardIdx += count;
+      return { ...player, hand: [...player.hand, ...newCards] };
+    }
+    return player;
+  });
+
+  return { ...session, players };
+}
+
+/**
+ * Shuffle hand: discards a player's current hand cards and replaces them with the exact same count of new cards.
+ * Can be done once per round per player.
+ */
+export function shuffleHand(
+  session: GameSession,
+  playerId: string,
+  allResponses: ResponseCard[]
+): { session: GameSession; success: boolean; error?: string } {
+  if (session.phase !== "submitting" && session.phase !== "tiebreaker") {
+    return { session, success: false, error: "Can only shuffle during submission" };
+  }
+
+  if (session.shuffledThisRound.includes(playerId)) {
+    return { session, success: false, error: "You already shuffled your hand this round" };
+  }
+
+  if (session.submissions.some((s) => s.playerId === playerId)) {
+    return { session, success: false, error: "Cannot shuffle after submitting cards" };
+  }
+
+  const player = session.players.find((p) => p.id === playerId);
+  if (!player || player.hand.length === 0) {
+    return { session, success: false, error: "No cards in hand to shuffle" };
+  }
+
+  const handCount = player.hand.length;
+  const discardedIds = [...player.hand];
+
+  const currentHandIds = new Set(
+    session.players.flatMap((p) => (p.id === playerId ? [] : p.hand))
+  );
+  const permanentlyUsed = new Set([
+    ...currentHandIds,
+    ...session.usedResponseIds,
+    ...discardedIds,
+  ]);
+
+  let available = shuffle(allResponses.filter((r) => !permanentlyUsed.has(r.id)));
+  if (available.length < handCount) {
+    available = shuffle(allResponses.filter((r) => !currentHandIds.has(r.id) && !discardedIds.includes(r.id)));
+  }
+
+  const newHand = available.slice(0, handCount).map((c) => c.id);
+
+  const players = session.players.map((p) =>
+    p.id === playerId ? { ...p, hand: newHand } : p
+  );
+
+  const updatedSession: GameSession = {
+    ...session,
+    players,
+    usedResponseIds: [...session.usedResponseIds, ...discardedIds],
+    shuffledThisRound: [...session.shuffledThisRound, playerId],
+  };
+
+  return { session: updatedSession, success: true };
+}
+
+/**
+ * Draw a prompt card while ensuring prompt cards never repeat during a session.
+ */
 export function drawPrompt(
   session: GameSession,
   allPrompts: PromptCard[]
 ): GameSession {
-  const usedPromptIds = new Set<string>(); // track across session ideally
-  const available = shuffle(allPrompts.filter((p) => !usedPromptIds.has(p.id)));
-  if (!available.length) return session;
-  return { ...session, currentPrompt: available[0] };
+  const usedPromptSet = new Set(session.usedPromptIds || []);
+  let available = shuffle(allPrompts.filter((p) => !usedPromptSet.has(p.id)));
+
+  if (available.length === 0) {
+    available = shuffle([...allPrompts]);
+    if (available.length === 0) return session;
+    const picked = available[0];
+    return {
+      ...session,
+      currentPrompt: picked,
+      usedPromptIds: [picked.id],
+    };
+  }
+
+  const picked = available[0];
+  return {
+    ...session,
+    currentPrompt: picked,
+    usedPromptIds: [...(session.usedPromptIds || []), picked.id],
+  };
 }
 
 // ── Game flow ─────────────────────────────────────────────────────────────────
@@ -130,9 +287,26 @@ export function startRound(
   allPrompts: PromptCard[],
   allResponses: ResponseCard[]
 ): GameSession {
-  let s: GameSession = { ...session, phase: "submitting", submissions: [], votes: {}, winningSubmissionId: null, round: session.round + 1 };
+  let s: GameSession = {
+    ...session,
+    phase: "submitting",
+    submissions: [],
+    votes: {},
+    winningSubmissionId: null,
+    shuffledThisRound: [],
+    tiebreakerPlayerIds: [],
+    round: session.round + 1,
+  };
+
   s = drawPrompt(s, allPrompts);
-  s = dealHands(s, allResponses);
+
+  if (!session.gameStarted) {
+    s = dealHandsFull(s, allResponses);
+    s.gameStarted = true;
+  } else {
+    s = refillHands(s, allResponses);
+  }
+
   return s;
 }
 
@@ -140,39 +314,49 @@ export function submitCards(
   session: GameSession,
   playerId: string,
   cardIds: string[]
-): { session: GameSession; allSubmitted: boolean } {
-  // Validate: player exists, isn't judge, cards are in their hand
-  const judgeId = session.players[session.judgeIndex]?.id;
-  if (playerId === judgeId) {
-    return { session, allSubmitted: false };
+): { session: GameSession; allSubmitted: boolean; error?: string } {
+  const player = session.players.find((p) => p.id === playerId && p.connected);
+  if (!player) return { session, allSubmitted: false, error: "Player not found or disconnected" };
+
+  if (session.phase === "tiebreaker") {
+    if (!session.tiebreakerPlayerIds.includes(playerId)) {
+      return { session, allSubmitted: false, error: "Only tied players submit in tiebreaker" };
+    }
+  } else if (session.phase !== "submitting") {
+    return { session, allSubmitted: false, error: "Not in submission phase" };
   }
 
-  const player = session.players.find((p) => p.id === playerId);
-  if (!player) return { session, allSubmitted: false };
-
-  // Check already submitted
-  if (session.submissions.find((s) => s.playerId === playerId)) {
-    return { session, allSubmitted: false };
+  if (session.submissions.some((s) => s.playerId === playerId)) {
+    return { session, allSubmitted: false, error: "Cards already submitted" };
   }
 
-  // Remove cards from hand
   const players = session.players.map((p) =>
-    p.id === playerId ? { ...p, hand: p.hand.filter((id) => !cardIds.includes(id)) } : p
+    p.id === playerId
+      ? { ...p, hand: p.hand.filter((id) => !cardIds.includes(id)) }
+      : p
   );
 
-  const newSubmission: Submission = { id: generateId(), playerId, cardIds, revealed: false };
+  const newSubmission: Submission = {
+    id: generateId(),
+    playerId,
+    cardIds,
+    revealed: false,
+  };
   const submissions = shuffle([...session.submissions, newSubmission]);
 
-  const activePlayers = session.players.filter(
-    (p) => p.id !== judgeId && p.connected
-  );
-  const allSubmitted = submissions.length >= activePlayers.length;
+  const expectedPlayerIds =
+    session.phase === "tiebreaker"
+      ? session.tiebreakerPlayerIds
+      : session.players.filter((p) => p.connected).map((p) => p.id);
+
+  const submittedPlayerIds = new Set(submissions.map((s) => s.playerId));
+  const allSubmitted = expectedPlayerIds.every((id) => submittedPlayerIds.has(id));
 
   const newSession: GameSession = {
     ...session,
     players,
     submissions,
-    phase: allSubmitted ? "voting" : "submitting",
+    phase: allSubmitted ? "voting" : session.phase,
     usedResponseIds: [...session.usedResponseIds, ...cardIds],
   };
 
@@ -189,6 +373,133 @@ export function revealSubmission(
   return { ...session, submissions };
 }
 
+export function castVote(
+  session: GameSession,
+  voterId: string,
+  submissionId: string
+): { session: GameSession; complete: boolean; error?: string } {
+  const voter = session.players.find((p) => p.id === voterId && p.connected);
+  const submission = session.submissions.find((s) => s.id === submissionId);
+
+  if (!voter || !submission) {
+    return { session, complete: false, error: "Invalid voter or submission" };
+  }
+
+  if (voterId === submission.playerId) {
+    return { session, complete: false, error: "You cannot vote for your own submission" };
+  }
+
+  const votes = { ...session.votes, [voterId]: submissionId };
+
+  const eligibleVoters = session.players.filter((p) => p.connected);
+  const complete = eligibleVoters.every((p) => !!votes[p.id]);
+
+  const updatedSession: GameSession = {
+    ...session,
+    votes,
+    phase: complete ? "reveal" : "voting",
+  };
+
+  return { session: updatedSession, complete };
+}
+
+export function resolveVotes(
+  session: GameSession,
+  allPrompts?: PromptCard[],
+  allResponses?: ResponseCard[]
+): GameSession {
+  if (session.submissions.length === 0) return session;
+
+  const counts = new Map<string, number>();
+  Object.values(session.votes).forEach((id) =>
+    counts.set(id, (counts.get(id) ?? 0) + 1)
+  );
+
+  let maxVotes = -1;
+  const submissionsWithVotes = session.submissions.map((s) => {
+    const voteCount = counts.get(s.id) ?? 0;
+    if (voteCount > maxVotes) maxVotes = voteCount;
+    return { submission: s, voteCount };
+  });
+
+  const topSubmissions = submissionsWithVotes.filter(
+    (item) => item.voteCount === maxVotes
+  );
+
+  if (topSubmissions.length > 1 && session.submissions.length > 1) {
+    const tiedPlayerIds = topSubmissions.map((item) => item.submission.playerId);
+
+    let tieSession: GameSession = {
+      ...session,
+      phase: "tiebreaker",
+      tiebreakerPlayerIds: tiedPlayerIds,
+      submissions: [],
+      votes: {},
+      winningSubmissionId: null,
+    };
+
+    if (allResponses) {
+      tieSession = dealCardsToPlayers(tieSession, tiedPlayerIds, 3, allResponses);
+    }
+    if (allPrompts) {
+      tieSession = drawPrompt(tieSession, allPrompts);
+    }
+
+    return tieSession;
+  }
+
+  const winnerSubmission = (topSubmissions[0] || submissionsWithVotes[0])?.submission;
+  if (!winnerSubmission) return session;
+
+  const players = session.players.map((p) =>
+    p.id === winnerSubmission.playerId ? { ...p, score: p.score + 1 } : p
+  );
+
+  return {
+    ...session,
+    players,
+    winningSubmissionId: winnerSubmission.id,
+    tiebreakerPlayerIds: [],
+    phase: "reveal",
+  };
+}
+
+export function checkWinCondition(session: GameSession): Player | null {
+  const connectedPlayers = session.players.filter((p) => p.connected);
+  if (connectedPlayers.length === 0) return null;
+
+  const reachedScore = connectedPlayers.some((p) => p.score >= session.targetScore);
+  const reachedRounds = session.totalRounds > 0 && session.round >= session.totalRounds;
+
+  if (reachedScore || reachedRounds) {
+    const sorted = [...connectedPlayers].sort((a, b) => b.score - a.score);
+    const topScore = sorted[0]?.score ?? 0;
+    const leaders = sorted.filter((p) => p.score === topScore);
+
+    if (leaders.length === 1) {
+      return leaders[0];
+    }
+    return null;
+  }
+
+  return null;
+}
+
+export function advanceRound(session: GameSession): GameSession {
+  const nextJudgeIndex = (session.judgeIndex + 1) % Math.max(1, session.players.filter((p) => p.connected).length);
+  return {
+    ...session,
+    judgeIndex: nextJudgeIndex,
+    submissions: [],
+    currentPrompt: null,
+    phase: "submitting",
+    votes: {},
+    winningSubmissionId: null,
+    shuffledThisRound: [],
+    tiebreakerPlayerIds: [],
+  };
+}
+
 export function judgePicksWinner(
   session: GameSession,
   judgeId: string,
@@ -203,51 +514,16 @@ export function judgePicksWinner(
     p.id === winning.playerId ? { ...p, score: p.score + 1 } : p
   );
 
-  const newSession: GameSession = { ...session, players, phase: "reveal" };
-  return { session: newSession, winnerId: winning.playerId };
-}
-
-export function castVote(session: GameSession, voterId: string, submissionId: string) {
-  const voter = session.players.find((p) => p.id === voterId && p.connected);
-  const submission = session.submissions.find((s) => s.id === submissionId);
-  if (!voter || !submission || voterId === submission.playerId) return { session, complete: false };
-  const votes = { ...session.votes, [voterId]: submissionId };
-  // Every connected player gets one vote; the API still prevents voting for
-  // that player's own submission.
-  const eligible = session.players.filter((p) => p.connected);
-  const complete = Object.keys(votes).length >= eligible.length;
-  return { session: { ...session, votes, phase: complete ? "reveal" : "voting" as GameSession["phase"] }, complete };
-}
-
-export function resolveVotes(session: GameSession): GameSession {
-  const counts = new Map<string, number>();
-  Object.values(session.votes).forEach((id) => counts.set(id, (counts.get(id) ?? 0) + 1));
-  const max = Math.max(0, ...counts.values());
-  const winner = session.submissions.find((s) => (counts.get(s.id) ?? 0) === max);
-  if (!winner || max === 0) return session;
-  const players = session.players.map((p) => p.id === winner.playerId ? { ...p, score: p.score + 1 } : p);
-  return { ...session, players, winningSubmissionId: winner.id, phase: "reveal" };
-}
-
-export function checkWinCondition(session: GameSession): Player | null {
-  return (
-    session.players.find((p) => p.score >= session.targetScore) ?? null
-  );
-}
-
-export function advanceRound(session: GameSession): GameSession {
-  const nextJudgeIndex = (session.judgeIndex + 1) % session.players.filter((p) => p.connected).length;
-  return {
+  const newSession: GameSession = {
     ...session,
-    judgeIndex: nextJudgeIndex,
-    submissions: [],
-    currentPrompt: null,
-    phase: "submitting",
-    votes: {},
-    winningSubmissionId: null,
+    players,
+    winningSubmissionId: winning.id,
+    phase: "reveal",
   };
+  return { session: newSession, winnerId: winning.playerId };
 }
 
 export function endGame(session: GameSession): GameSession {
   return { ...session, phase: "gameOver" };
 }
+

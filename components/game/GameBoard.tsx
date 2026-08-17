@@ -1,35 +1,36 @@
 "use client";
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shuffle, CheckCircle2, ArrowRight } from "lucide-react";
 import { CardHand } from "@/components/cards/CardHand";
 import { PromptCard } from "@/components/cards/PromptCard";
-import { PlayerChip } from "@/components/lobby/PlayerChip";
 import { Button } from "@/components/ui/Button";
 import { ScoreTick } from "@/components/animations/ScoreTick";
 import type { GameSession, ResponseCard } from "@/types/game";
-
 import { ALL_RESPONSES } from "@/lib/card-data";
-
+import { useUIStore } from "@/stores/uiStore";
 
 interface GameBoardProps {
   session: GameSession;
   playerId: string;
-  isJudge: boolean;
+  isJudge?: boolean;
   onSessionUpdate: (s: GameSession) => void;
 }
 
-export function GameBoard({ session, playerId, isJudge, onSessionUpdate }: GameBoardProps) {
+export function GameBoard({ session, playerId, onSessionUpdate }: GameBoardProps) {
   const [selectedCardIds, setSelectedCardIds] = useState<string[]>([]);
   const [submittedIds, setSubmittedIds] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [shuffling, setShuffling] = useState(false);
+  const { addToast } = useUIStore();
 
   const player = session.players.find((p) => p.id === playerId);
-  const judge = session.players[session.judgeIndex];
   const prompt = session.currentPrompt;
   const pickCount = prompt?.pick ?? 1;
   const hasSubmitted = session.submissions.some((s) => s.playerId === playerId);
+  const hasShuffled = session.shuffledThisRound?.includes(playerId) ?? false;
   const submissionCount = session.submissions.length;
-  const totalNonJudge = session.players.filter((p) => p.id !== judge?.id && p.connected).length;
+  const totalPlayers = session.players.filter((p) => p.connected).length;
 
   // Map hand IDs to card objects
   const handCards = useMemo(
@@ -40,16 +41,51 @@ export function GameBoard({ session, playerId, isJudge, onSessionUpdate }: GameB
     [player?.hand]
   );
 
+  // Card Swap Selection Logic: Tapping another card replaces or toggles without requiring explicit deselect
   const toggleCard = (cardId: string) => {
     if (selectedCardIds.includes(cardId)) {
       setSelectedCardIds((prev) => prev.filter((id) => id !== cardId));
-    } else if (selectedCardIds.length < pickCount) {
-      setSelectedCardIds((prev) => [...prev, cardId]);
+    } else if (pickCount === 1) {
+      // Instant single card swap
+      setSelectedCardIds([cardId]);
+    } else {
+      // Pick 2 or more: replace oldest selected card if limit reached
+      setSelectedCardIds((prev) => {
+        const next = prev.length >= pickCount ? prev.slice(-(pickCount - 1)) : prev;
+        return [...next, cardId];
+      });
+    }
+  };
+
+  const handleShuffle = async () => {
+    if (hasShuffled || hasSubmitted || shuffling) return;
+    setShuffling(true);
+    try {
+      const res = await fetch("/api/game/shuffle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: session.code,
+          playerId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        addToast({ type: "error", message: data.error || "Could not shuffle cards" });
+        return;
+      }
+      setSelectedCardIds([]);
+      onSessionUpdate(data.session);
+      addToast({ type: "success", message: "Hand shuffled with fresh cards! 🔀" });
+    } catch {
+      addToast({ type: "error", message: "Network error while shuffling cards" });
+    } finally {
+      setShuffling(false);
     }
   };
 
   const handleSubmit = async () => {
-    if (selectedCardIds.length !== pickCount) return;
+    if (selectedCardIds.length !== pickCount || submitting) return;
     setSubmitting(true);
     setSubmittedIds(selectedCardIds);
     try {
@@ -73,87 +109,87 @@ export function GameBoard({ session, playerId, isJudge, onSessionUpdate }: GameB
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100dvh-64px)]" style={{ backgroundColor: "var(--bg)" }}>
-      {/* Top area — prompt + scores */}
+    <div className="flex flex-col min-h-[calc(100dvh-64px)] justify-between" style={{ backgroundColor: "var(--bg)" }}>
+      {/* Zone 1: Top Sticky Area — Prompt & Round Progress */}
       <div
-        className="flex flex-col items-center gap-4 px-4 pt-6 pb-4"
+        className="flex flex-col items-center gap-3 px-3 sm:px-4 pt-4 pb-3"
         style={{ borderBottom: "1px solid var(--border)" }}
       >
-        {/* Round + submission progress */}
-        <div className="flex items-center gap-3 w-full max-w-2xl justify-between">
-          <span
-            style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: "0.75rem",
-              color: "var(--text-muted)",
-              fontWeight: 600,
-              letterSpacing: "0.06em",
-            }}
-          >
-            ROUND {session.round}
-          </span>
+        {/* Round counter + submission dots */}
+        <div className="flex items-center justify-between w-full max-w-2xl">
+          <div className="flex items-center gap-2">
+            <span
+              className="px-2.5 py-1 rounded-full text-xs font-bold"
+              style={{
+                backgroundColor: "var(--surface)",
+                color: "var(--accent-primary)",
+                border: "1px solid var(--border-strong)",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              ROUND {session.round} / {session.totalRounds}
+            </span>
+          </div>
 
-          <div className="flex items-center gap-1">
-            {Array.from({ length: totalNonJudge }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="rounded-full"
-                style={{
-                  width: 8,
-                  height: 8,
-                  backgroundColor:
-                    i < submissionCount ? "var(--accent-primary)" : "var(--border-strong)",
-                }}
-                animate={i < submissionCount ? { scale: [1, 1.3, 1] } : {}}
-                transition={{ duration: 0.3 }}
-              />
-            ))}
+          {/* Submission progress */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
+              {Array.from({ length: totalPlayers }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="rounded-full"
+                  style={{
+                    width: 7,
+                    height: 7,
+                    backgroundColor:
+                      i < submissionCount ? "var(--accent-primary)" : "var(--border-strong)",
+                  }}
+                  animate={i < submissionCount ? { scale: [1, 1.3, 1] } : {}}
+                  transition={{ duration: 0.3 }}
+                />
+              ))}
+            </div>
             <span
               style={{
                 fontFamily: "Inter, sans-serif",
                 fontSize: "0.75rem",
                 color: "var(--text-muted)",
+                fontWeight: 600,
                 marginLeft: 4,
               }}
             >
-              {submissionCount}/{totalNonJudge}
+              {submissionCount}/{totalPlayers} submitted
             </span>
           </div>
         </div>
 
-        {/* Prompt card */}
+        {/* Prompt Card */}
         {prompt && (
-          <motion.div
-            initial={{ y: -30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 280, damping: 22 }}
-          >
+          <div className="w-full flex justify-center py-1">
             <PromptCard card={prompt} size="md" />
-          </motion.div>
-        )}
-
-        {/* Judge indicator */}
-        {judge && (
-          <div className="flex items-center gap-2">
-            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}>
-              {isJudge ? "You are the Judge — wait for submissions" : `${judge.name} is judging`}
-            </span>
           </div>
         )}
       </div>
 
-      {/* Scoreboard strip */}
+      {/* Zone 2: Mini Player Score Strip */}
       <div
-        className="flex gap-3 overflow-x-auto px-4 py-3"
+        className="flex gap-2.5 overflow-x-auto px-4 py-2 justify-start sm:justify-center"
         style={{ borderBottom: "1px solid var(--border)" }}
       >
         {session.players.map((p) => (
-          <div key={p.id} className="flex items-center gap-1.5 flex-shrink-0">
+          <div
+            key={p.id}
+            className="flex items-center gap-1.5 flex-shrink-0 px-2.5 py-1 rounded-full"
+            style={{
+              backgroundColor: p.id === playerId ? "var(--surface-2)" : "var(--surface)",
+              border: p.id === playerId ? "1px solid var(--accent-primary)" : "1px solid var(--border)",
+            }}
+          >
             <div
-              className="rounded-full flex items-center justify-center text-xs font-bold"
+              className="rounded-full flex items-center justify-center text-[10px] font-bold"
               style={{
-                width: 28,
-                height: 28,
+                width: 20,
+                height: 20,
                 backgroundColor: p.avatarColor,
                 color: "#fff",
                 fontFamily: "Inter, sans-serif",
@@ -161,41 +197,48 @@ export function GameBoard({ session, playerId, isJudge, onSessionUpdate }: GameB
             >
               {p.name.charAt(0)}
             </div>
-            <ScoreTick
-              value={p.score}
-              className="text-sm"
-            />
-            {"/"}
-            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}>
-              {session.targetScore}
+            <span
+              className="text-xs font-semibold max-w-[70px] truncate"
+              style={{ color: "var(--text)", fontFamily: "Inter, sans-serif" }}
+            >
+              {p.name}
             </span>
+            <ScoreTick value={p.score} className="text-xs font-bold text-[var(--accent-primary)]" />
           </div>
         ))}
       </div>
 
-      {/* Hand area */}
-      <div className="flex-1 flex flex-col justify-end pb-6 px-4">
-        {isJudge ? (
+      {/* Zone 3: Bottom Area — Card Hand & Actions */}
+      <div className="flex-1 flex flex-col justify-between py-4 px-2 sm:px-4 pb-safe">
+        {hasSubmitted ? (
           <motion.div
-            className="flex flex-col items-center gap-4 py-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="flex flex-col items-center justify-center gap-3 py-12 flex-1"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
           >
-            <span style={{ fontSize: "3rem" }}>👑</span>
+            <span style={{ fontSize: "2.8rem" }}>✅</span>
+            <h3
+              style={{
+                fontFamily: "'Baloo 2', sans-serif",
+                fontWeight: 700,
+                fontSize: "1.25rem",
+                color: "var(--text)",
+              }}
+            >
+              Card Submitted!
+            </h3>
             <p
               style={{
                 color: "var(--text-muted)",
                 fontFamily: "Inter, sans-serif",
-                fontSize: "1rem",
+                fontSize: "0.9rem",
                 textAlign: "center",
               }}
             >
-              You&apos;re the judge this round.
-              <br />
-              Wait for everyone to submit...
+              Waiting for other players ({submissionCount}/{totalPlayers})...
             </p>
-            {/* Animated waiting dots */}
-            <div className="flex gap-1.5">
+            {/* Animated Waiting Dots */}
+            <div className="flex gap-1.5 mt-2">
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
@@ -207,69 +250,78 @@ export function GameBoard({ session, playerId, isJudge, onSessionUpdate }: GameB
               ))}
             </div>
           </motion.div>
-        ) : hasSubmitted ? (
-          <motion.div
-            className="flex flex-col items-center gap-3 py-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <span style={{ fontSize: "2.5rem" }}>✅</span>
-            <p
-              style={{
-                color: "var(--text-muted)",
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.95rem",
-                textAlign: "center",
-              }}
-            >
-              Card submitted! Waiting for others...
-            </p>
-          </motion.div>
         ) : (
-          <div className="flex flex-col gap-4">
-            <p
-              className="text-center"
-              style={{
-                color: "var(--text-muted)",
-                fontFamily: "Inter, sans-serif",
-                fontSize: "0.8rem",
-                fontWeight: 600,
-                letterSpacing: "0.04em",
-              }}
-            >
-              {pickCount === 2
-                ? `SELECT 2 CARDS (${selectedCardIds.length}/2)`
-                : "SELECT A CARD FROM YOUR HAND"}
-            </p>
-
-            <CardHand
-              cards={handCards}
-              selectedIds={selectedCardIds}
-              submittedIds={submittedIds}
-              onSelect={toggleCard}
-              maxSelect={pickCount}
-              disabled={hasSubmitted || submitting}
-            />
-
-            {selectedCardIds.length === pickCount && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex justify-center"
+          <div className="flex flex-col gap-3 w-full max-w-4xl mx-auto">
+            {/* Instruction and Shuffle Toolbar */}
+            <div className="flex items-center justify-between px-2">
+              <p
+                style={{
+                  color: "var(--text-muted)",
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "0.8rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
+                }}
               >
-                <Button
-                  size="lg"
-                  variant="primary"
-                  loading={submitting}
-                  onClick={handleSubmit}
-                >
-                  Submit Card →
-                </Button>
-              </motion.div>
-            )}
+                {pickCount === 2
+                  ? `PICK 2 CARDS (${selectedCardIds.length}/2)`
+                  : "TAP A CARD TO SELECT"}
+              </p>
+
+              {/* Hand Shuffle Button */}
+              <button
+                onClick={handleShuffle}
+                disabled={hasShuffled || shuffling}
+                aria-label="Shuffle response cards"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all touch-target"
+                style={{
+                  backgroundColor: hasShuffled ? "var(--surface)" : "var(--surface-2)",
+                  color: hasShuffled ? "var(--text-muted)" : "var(--text)",
+                  border: "1px solid var(--border-strong)",
+                  opacity: hasShuffled ? 0.6 : 1,
+                  cursor: hasShuffled ? "not-allowed" : "pointer",
+                }}
+              >
+                <Shuffle size={13} className={shuffling ? "animate-spin" : ""} />
+                {hasShuffled ? "Shuffled ✓" : shuffling ? "Shuffling..." : "🔀 Refresh Cards"}
+              </button>
+            </div>
+
+            {/* Hand Cards Grid */}
+            <div className="overflow-y-auto max-h-[46vh] sm:max-h-[50vh] py-1">
+              <CardHand
+                cards={handCards}
+                selectedIds={selectedCardIds}
+                submittedIds={submittedIds}
+                onSelect={toggleCard}
+                maxSelect={pickCount}
+                disabled={hasSubmitted || submitting}
+              />
+            </div>
+
+            {/* Sticky Submit Button */}
+            <div className="flex justify-center pt-2 px-2">
+              <Button
+                size="lg"
+                variant="primary"
+                loading={submitting}
+                disabled={selectedCardIds.length !== pickCount}
+                onClick={handleSubmit}
+                className="w-full max-w-md touch-target font-bold"
+              >
+                {selectedCardIds.length === pickCount ? (
+                  <span className="flex items-center justify-center gap-2">
+                    Submit Card <ArrowRight size={18} />
+                  </span>
+                ) : (
+                  `Select ${pickCount - selectedCardIds.length} more card${pickCount - selectedCardIds.length > 1 ? "s" : ""}`
+                )}
+              </Button>
+            </div>
           </div>
         )}
       </div>
     </div>
   );
 }
+

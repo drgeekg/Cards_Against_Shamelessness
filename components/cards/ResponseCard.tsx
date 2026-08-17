@@ -16,9 +16,9 @@ interface ResponseCardProps {
 }
 
 const sizes = {
-  sm: { width: 130, minHeight: 160, fontSize: "0.75rem", padding: "0.8rem" },
-  md: { width: 175, minHeight: 220, fontSize: "0.88rem", padding: "1.1rem" },
-  lg: { width: 220, minHeight: 280, fontSize: "1rem", padding: "1.25rem" },
+  sm: { className: "w-[120px] min-h-[150px] text-xs p-3", fontSize: "0.75rem", padding: "0.75rem", minHeight: 150 },
+  md: { className: "w-full max-w-[175px] min-w-[135px] min-h-[180px] sm:min-h-[210px] text-sm p-3.5 sm:p-4", fontSize: "0.88rem", padding: "1rem", minHeight: 180 },
+  lg: { className: "w-full max-w-[220px] min-h-[240px] text-base p-4", fontSize: "1rem", padding: "1.25rem", minHeight: 240 },
 };
 
 export function ResponseCard({
@@ -38,11 +38,11 @@ export function ResponseCard({
   return (
     <motion.div
       layoutId={layoutId}
-      className={`card-base card-flip-container ${className}`}
-      style={{ width: s.width, minHeight: s.minHeight, cursor: onClick && !disabled ? "pointer" : "default" }}
+      className={`card-base card-flip-container touch-target ${s.className} ${className}`}
+      style={{ cursor: onClick && !disabled ? "pointer" : "default" }}
       onClick={() => !disabled && onClick?.()}
       animate={{
-        scale: isWinner ? 1.12 : isSelected ? 1.05 : 1,
+        scale: isWinner ? 1.08 : isSelected ? 1.03 : 1,
         opacity: isDimmed ? 0.35 : 1,
         rotateY: isFaceDown ? 180 : 0,
         boxShadow: isWinner
@@ -52,9 +52,9 @@ export function ResponseCard({
           : "var(--card-shadow)",
       }}
       whileHover={onClick && !disabled && !isSelected && !isDimmed
-        ? { scale: 1.05, y: -6, boxShadow: "var(--card-shadow-hover)" }
+        ? { scale: 1.04, y: -4, boxShadow: "var(--card-shadow-hover)" }
         : {}}
-      whileTap={onClick && !disabled ? { scale: 0.98 } : {}}
+      whileTap={onClick && !disabled ? { scale: 0.97 } : {}}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
     >
       {/* Front face */}
@@ -101,9 +101,8 @@ export function CardBack({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 
   return (
     <div
-      className="card-base"
+      className={`card-base ${s.className}`}
       style={{
-        width: s.width,
         minHeight: s.minHeight,
         backgroundColor: "var(--accent-primary)",
         display: "flex",
@@ -116,3 +115,4 @@ export function CardBack({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
     </div>
   );
 }
+

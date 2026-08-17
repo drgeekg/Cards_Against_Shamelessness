@@ -18,11 +18,26 @@ export async function POST(req: NextRequest) {
     if (!session) {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
-    const existing = reconnectId && session.players.find((p) => p.id === reconnectId);
+    const existing =
+      (reconnectId && session.players.find((p) => p.id === reconnectId)) ||
+      (session.phase !== "lobby" &&
+        session.players.find(
+          (p) => p.name.toLowerCase() === name.trim().toLowerCase() && !p.connected
+        ));
+
     if (existing) {
-      const updatedSession = { ...session, players: session.players.map((p) => p.id === reconnectId ? { ...p, connected: true } : p) };
+      const updatedSession = {
+        ...session,
+        players: session.players.map((p) =>
+          p.id === existing.id ? { ...p, connected: true } : p
+        ),
+      };
       await setSession(code.toUpperCase(), updatedSession);
-      return NextResponse.json({ playerId: reconnectId, session: updatedSession, reconnected: true });
+      return NextResponse.json({
+        playerId: existing.id,
+        session: updatedSession,
+        reconnected: true,
+      });
     }
     if (session.phase !== "lobby") {
       return NextResponse.json({ error: "Game already in progress" }, { status: 403 });

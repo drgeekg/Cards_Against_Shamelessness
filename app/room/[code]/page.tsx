@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/ui/Header";
 import { LobbyRoom } from "@/components/lobby/LobbyRoom";
 import { GameBoard } from "@/components/game/GameBoard";
-import { JudgeView } from "@/components/game/JudgeView";
+import { VotingView } from "@/components/game/VotingView";
+import { TiebreakerView } from "@/components/game/TiebreakerView";
 import { WinnerReveal } from "@/components/game/WinnerReveal";
 import { FinalScoreboard } from "@/components/game/FinalScoreboard";
+import { ExitWarningModal } from "@/components/ui/ExitWarningModal";
 import { useGameStore } from "@/stores/gameStore";
 import { usePlayerStore } from "@/stores/playerStore";
 import { useUIStore } from "@/stores/uiStore";
@@ -18,12 +20,14 @@ export default function RoomPage() {
   const router = useRouter();
   const code = (params?.code as string)?.toUpperCase();
 
-  const { session, setSession, isConnected, setConnected } = useGameStore();
-  const { playerId, name, avatarColor } = usePlayerStore();
+  const { session, setSession, setConnected } = useGameStore();
+  const { playerId, name, avatarColor, setExitedRoom } = usePlayerStore();
   const { addToast } = useUIStore();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const consecutiveFailures = useRef(0);
 
   // Load initial session with retry resilience for serverless/transient misses
@@ -34,7 +38,6 @@ export default function RoomPage() {
         consecutiveFailures.current += 1;
         setConnected(false);
 
-        // Require 4 consecutive failures before declaring the room as lost
         if (consecutiveFailures.current >= 4) {
           setError("Room not found. The game may have ended.");
         }
@@ -45,8 +48,19 @@ export default function RoomPage() {
       consecutiveFailures.current = 0;
       setSession(data);
       setConnected(true);
-      if (playerId && data.players.some((p: { id: string; connected: boolean }) => p.id === playerId && !p.connected)) {
-        await fetch("/api/rooms/join", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code, playerId, name, avatarColor }) });
+
+      // If local player is marked disconnected on the server, auto-reconnect
+      if (
+        playerId &&
+        data.players.some(
+          (p: { id: string; connected: boolean }) => p.id === playerId && !p.connected
+        )
+      ) {
+        await fetch("/api/rooms/join", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, playerId, name, avatarColor }),
+        });
       }
     } catch {
       consecutiveFailures.current += 1;
@@ -59,6 +73,19 @@ export default function RoomPage() {
     }
   }, [code, playerId, name, avatarColor, setSession, setConnected]);
 
+  // Tab unload warning before active exit
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (session && session.phase !== "lobby" && session.phase !== "gameOver") {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [session]);
+
   useEffect(() => {
     if (!code) return;
     if (!playerId || !name) {
@@ -66,10 +93,31 @@ export default function RoomPage() {
       return;
     }
     fetchSession();
-    // Poll every 2.5s for real-time updates (prevents hitting Redis rate limits)
+    // Poll every 2.5s for real-time updates
     const interval = setInterval(fetchSession, 2500);
     return () => clearInterval(interval);
   }, [code, playerId, name, router, fetchSession]);
+
+  const handleConfirmExit = async () => {
+    setLeaving(true);
+    try {
+      if (code && playerId) {
+        await fetch("/api/rooms/leave", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, playerId }),
+        });
+        setExitedRoom(code);
+      }
+      addToast({ type: "info", message: `Left room ${code}. You can rejoin anytime!` });
+      router.push("/");
+    } catch {
+      router.push("/");
+    } finally {
+      setLeaving(false);
+      setShowExitModal(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -125,11 +173,15 @@ export default function RoomPage() {
 
   const phase = session.phase;
   const isJudge = session.players[session.judgeIndex]?.id === playerId;
-  const editionLocked = phase === "submitting" || phase === "judging" || phase === "reveal";
+  const editionLocked = phase === "submitting" || phase === "judging" || phase === "voting" || phase === "tiebreaker" || phase === "reveal";
 
   return (
     <div className="min-h-dvh flex flex-col" style={{ backgroundColor: "var(--bg)" }}>
-      <Header editionLocked={editionLocked} showEditionToggle />
+      <Header
+        editionLocked={editionLocked}
+        showEditionToggle
+        onExit={() => setShowExitModal(true)}
+      />
 
       <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">
@@ -161,14 +213,27 @@ export default function RoomPage() {
 
           {(phase === "judging" || phase === "voting") && (
             <motion.div
-              key="judging"
+              key="voting"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.25 }}
               className="flex-1"
             >
-              <JudgeView session={session} playerId={playerId!} isJudge={isJudge} onSessionUpdate={setSession} />
+              <VotingView session={session} playerId={playerId!} isJudge={isJudge} onSessionUpdate={setSession} />
+            </motion.div>
+          )}
+
+          {phase === "tiebreaker" && (
+            <motion.div
+              key="tiebreaker"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="flex-1"
+            >
+              <TiebreakerView session={session} playerId={playerId!} onSessionUpdate={setSession} />
             </motion.div>
           )}
 
@@ -199,6 +264,15 @@ export default function RoomPage() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* Exit confirmation modal */}
+      <ExitWarningModal
+        isOpen={showExitModal}
+        onClose={() => setShowExitModal(false)}
+        onConfirmExit={handleConfirmExit}
+        loading={leaving}
+      />
     </div>
   );
 }
+
