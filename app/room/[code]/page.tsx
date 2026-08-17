@@ -32,6 +32,7 @@ export default function RoomPage() {
   const [showExitModal, setShowExitModal] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const consecutiveFailures = useRef(0);
+  const prevPlayersRef = useRef<Array<{ id: string; name: string; connected: boolean }>>([]);
 
   // Direct join form state
   const [joinName, setJoinName] = useState(name || "");
@@ -69,6 +70,47 @@ export default function RoomPage() {
       setSession(data);
       setConnected(true);
       setError("");
+
+      // Notify when players leave or join the room
+      if (
+        prevPlayersRef.current.length > 0 &&
+        playerId &&
+        data.players.some((p: { id: string }) => p.id === playerId)
+      ) {
+        // Departed/disconnected players (excluding self)
+        const departed = prevPlayersRef.current.filter((prev) => {
+          if (prev.id === playerId) return false;
+          const curr = data.players.find((p: { id: string }) => p.id === prev.id);
+          return prev.connected && (!curr || !curr.connected);
+        });
+
+        departed.forEach((p) => {
+          addToast({
+            type: "warning",
+            message: `👋 ${p.name} left the room`,
+          });
+        });
+
+        // Newly joined/reconnected players (excluding self)
+        const joined = data.players.filter((curr: { id: string; name: string; connected: boolean }) => {
+          if (curr.id === playerId) return false;
+          const prev = prevPlayersRef.current.find((p) => p.id === curr.id);
+          return curr.connected && (!prev || !prev.connected);
+        });
+
+        joined.forEach((p: { id: string; name: string }) => {
+          addToast({
+            type: "info",
+            message: `🎉 ${p.name} joined the room!`,
+          });
+        });
+      }
+
+      prevPlayersRef.current = data.players.map((p: { id: string; name: string; connected: boolean }) => ({
+        id: p.id,
+        name: p.name,
+        connected: p.connected,
+      }));
 
       // If local player is marked disconnected on the server, auto-reconnect
       if (

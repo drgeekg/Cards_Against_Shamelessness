@@ -410,10 +410,6 @@ export function castVote(
     return { session, complete: false, error: "Invalid voter or submission" };
   }
 
-  if (voterId === submission.playerId) {
-    return { session, complete: false, error: "You cannot vote for your own submission" };
-  }
-
   const votes = { ...session.votes, [voterId]: submissionId };
 
   const eligibleVoters = session.players.filter((p) => p.connected);
