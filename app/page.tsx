@@ -5,8 +5,9 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-mo
 import { ArrowRight, Users, Zap, Globe, Loader2 } from "lucide-react";
 import { Header } from "@/components/ui/Header";
 import { Button } from "@/components/ui/Button";
+import { ColorPicker } from "@/components/ui/ColorPicker";
 import { useUIStore } from "@/stores/uiStore";
-import { usePlayerStore, AVATAR_COLORS, getRandomColor } from "@/stores/playerStore";
+import { usePlayerStore, getRandomColor } from "@/stores/playerStore";
 
 // ── Floating card background ──────────────────────────────────────────────────
 const FLOAT_CARDS = [
@@ -53,31 +54,6 @@ function FloatingCard({ text, x, y, rot, delay }: { text: string; x: string; y: 
   );
 }
 
-// ── Color picker ──────────────────────────────────────────────────────────────
-function ColorPicker({ selected, onSelect }: { selected: string; onSelect: (c: string) => void }) {
-  return (
-    <div className="flex flex-wrap gap-2 justify-center">
-      {AVATAR_COLORS.map((color) => (
-        <motion.button
-          key={color}
-          onClick={() => onSelect(color)}
-          aria-label={`Select color ${color}`}
-          className="rounded-full focus:outline-none"
-          style={{
-            width: 28,
-            height: 28,
-            backgroundColor: color,
-            border: selected === color ? "3px solid var(--text)" : "3px solid transparent",
-            boxShadow: selected === color ? "0 0 0 2px var(--bg), 0 0 0 4px var(--text)" : "none",
-          }}
-          whileHover={{ scale: 1.15 }}
-          whileTap={{ scale: 0.9 }}
-        />
-      ))}
-    </div>
-  );
-}
-
 // ── Main landing page ─────────────────────────────────────────────────────────
 export default function HomePage() {
   const router = useRouter();
@@ -91,6 +67,18 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [rejoining, setRejoining] = useState(false);
   const [error, setError] = useState("");
+
+  // Auto-detect room code if passed via query params like /?code=YA9K or /?room=YA9K
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const codeParam = params.get("code") || params.get("room") || params.get("join");
+      if (codeParam) {
+        setJoinCode(codeParam.toUpperCase().slice(0, 4));
+        setMode("join");
+      }
+    }
+  }, []);
 
   const isIndian = edition === "sanskaar";
   const gameTitle = isIndian ? "Cards Against Shamelessness (Sanskaar)" : "Cards Against Shamelessness";
