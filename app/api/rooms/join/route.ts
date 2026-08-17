@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
     if (session.phase !== "lobby") {
       return NextResponse.json({ error: "Game already in progress" }, { status: 403 });
     }
-    if (session.players.filter((p) => p.connected).length >= 50) {
-      return NextResponse.json({ error: "Room is full (50 players max)" }, { status: 403 });
+    if (session.players.filter((p) => p.connected).length >= 10) {
+      return NextResponse.json({ error: "Room is full (10 players max)" }, { status: 403 });
     }
 
     const playerId = generateId();

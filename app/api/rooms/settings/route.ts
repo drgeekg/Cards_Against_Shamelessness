@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
       ...(settings.totalRounds !== undefined && { totalRounds: Number(settings.totalRounds) }),
       ...(settings.minCardsRefillThreshold !== undefined && { minCardsRefillThreshold: Number(settings.minCardsRefillThreshold) }),
       ...(settings.refillCardCount !== undefined && { refillCardCount: Number(settings.refillCardCount) }),
+      ...(settings.allowCardRefresh !== undefined && { allowCardRefresh: Boolean(settings.allowCardRefresh) }),
+      ...(settings.maxShufflesPerRound !== undefined && { maxShufflesPerRound: Number(settings.maxShufflesPerRound) }),
       ...(settings.nsfw !== undefined && { nsfw: Boolean(settings.nsfw) }),
       ...(settings.roundTimer !== undefined && { roundTimer: settings.roundTimer }),
       ...(settings.activePacks !== undefined && { activePacks: settings.activePacks }),

@@ -255,7 +255,7 @@ export default function HomePage() {
             transition={{ delay: 0.45 }}
           >
             {[
-              { icon: Users, label: "3–50 players" },
+              { icon: Users, label: "3–10 players" },
               { icon: Zap, label: "Real-time" },
               { icon: Globe, label: "No account needed" },
             ].map(({ icon: Icon, label }) => (

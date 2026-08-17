@@ -36,6 +36,8 @@ export interface CreateSessionOpts {
   totalRounds?: number;
   minCardsRefillThreshold?: number;
   refillCardCount?: number;
+  allowCardRefresh?: boolean;
+  maxShufflesPerRound?: number;
   nsfw?: boolean;
   roundTimer?: number | null;
 }
@@ -50,6 +52,9 @@ export function createSession(opts: CreateSessionOpts): GameSession {
     totalRounds: opts.totalRounds ?? 10,
     minCardsRefillThreshold: opts.minCardsRefillThreshold ?? 2,
     refillCardCount: opts.refillCardCount ?? 3,
+    allowCardRefresh: opts.allowCardRefresh ?? true,
+    maxShufflesPerRound: opts.maxShufflesPerRound ?? 1,
+    playerShuffleCounts: {},
     nsfw: opts.nsfw ?? false,
     roundTimer: opts.roundTimer ?? null,
     players: [opts.hostPlayer],
@@ -205,8 +210,19 @@ export function shuffleHand(
     return { session, success: false, error: "Can only shuffle during submission" };
   }
 
-  if (session.shuffledThisRound.includes(playerId)) {
-    return { session, success: false, error: "You already shuffled your hand this round" };
+  if (session.allowCardRefresh === false || (session.maxShufflesPerRound ?? 1) <= 0) {
+    return { session, success: false, error: "Card refresh is disabled in this room" };
+  }
+
+  const currentCount = session.playerShuffleCounts?.[playerId] ?? 0;
+  const maxAllowed = session.maxShufflesPerRound ?? 1;
+
+  if (currentCount >= maxAllowed) {
+    return {
+      session,
+      success: false,
+      error: `You have reached the maximum card refreshes (${maxAllowed}) for this round`,
+    };
   }
 
   if (session.submissions.some((s) => s.playerId === playerId)) {
@@ -241,11 +257,19 @@ export function shuffleHand(
     p.id === playerId ? { ...p, hand: newHand } : p
   );
 
+  const newCount = currentCount + 1;
+  const updatedCounts = { ...(session.playerShuffleCounts || {}), [playerId]: newCount };
+  const updatedShuffledThisRound =
+    newCount >= maxAllowed
+      ? [...new Set([...session.shuffledThisRound, playerId])]
+      : session.shuffledThisRound;
+
   const updatedSession: GameSession = {
     ...session,
     players,
     usedResponseIds: [...session.usedResponseIds, ...discardedIds],
-    shuffledThisRound: [...session.shuffledThisRound, playerId],
+    playerShuffleCounts: updatedCounts,
+    shuffledThisRound: updatedShuffledThisRound,
   };
 
   return { session: updatedSession, success: true };
@@ -294,6 +318,7 @@ export function startRound(
     votes: {},
     winningSubmissionId: null,
     shuffledThisRound: [],
+    playerShuffleCounts: {},
     tiebreakerPlayerIds: [],
     round: session.round + 1,
   };
@@ -496,6 +521,7 @@ export function advanceRound(session: GameSession): GameSession {
     votes: {},
     winningSubmissionId: null,
     shuffledThisRound: [],
+    playerShuffleCounts: {},
     tiebreakerPlayerIds: [],
   };
 }

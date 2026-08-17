@@ -47,6 +47,9 @@ export type GameSession = {
   totalRounds: number;      // host-selected number of rounds
   minCardsRefillThreshold: number; // default 2: if cards < this, refill
   refillCardCount: number;         // default 3: cards dealt on refill
+  allowCardRefresh: boolean;       // whether card refreshing/shuffling is allowed
+  maxShufflesPerRound: number;     // max times a player can refresh cards per round (default 1)
+  playerShuffleCounts: Record<string, number>; // playerId -> count of shuffles in current round
   nsfw: boolean;            // default false
   roundTimer: number | null; // seconds, null = off
   players: Player[];

@@ -28,7 +28,10 @@ export function GameBoard({ session, playerId, onSessionUpdate }: GameBoardProps
   const prompt = session.currentPrompt;
   const pickCount = prompt?.pick ?? 1;
   const hasSubmitted = session.submissions.some((s) => s.playerId === playerId);
-  const hasShuffled = session.shuffledThisRound?.includes(playerId) ?? false;
+  const allowRefresh = session.allowCardRefresh ?? true;
+  const maxShuffles = session.maxShufflesPerRound ?? 1;
+  const shuffleCount = session.playerShuffleCounts?.[playerId] ?? (session.shuffledThisRound?.includes(playerId) ? 1 : 0);
+  const reachedShuffleLimit = !allowRefresh || shuffleCount >= maxShuffles;
   const submissionCount = session.submissions.length;
   const totalPlayers = session.players.filter((p) => p.connected).length;
 
@@ -58,7 +61,7 @@ export function GameBoard({ session, playerId, onSessionUpdate }: GameBoardProps
   };
 
   const handleShuffle = async () => {
-    if (hasShuffled || hasSubmitted || shuffling) return;
+    if (!allowRefresh || reachedShuffleLimit || hasSubmitted || shuffling) return;
     setShuffling(true);
     try {
       const res = await fetch("/api/game/shuffle", {
@@ -76,7 +79,7 @@ export function GameBoard({ session, playerId, onSessionUpdate }: GameBoardProps
       }
       setSelectedCardIds([]);
       onSessionUpdate(data.session);
-      addToast({ type: "success", message: "Hand shuffled with fresh cards! 🔀" });
+      addToast({ type: "success", message: "Hand refreshed with new cards! 🔀" });
     } catch {
       addToast({ type: "error", message: "Network error while shuffling cards" });
     } finally {
@@ -268,23 +271,33 @@ export function GameBoard({ session, playerId, onSessionUpdate }: GameBoardProps
                   : "TAP A CARD TO SELECT"}
               </p>
 
-              {/* Hand Shuffle Button */}
-              <button
-                onClick={handleShuffle}
-                disabled={hasShuffled || shuffling}
-                aria-label="Shuffle response cards"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all touch-target"
-                style={{
-                  backgroundColor: hasShuffled ? "var(--surface)" : "var(--surface-2)",
-                  color: hasShuffled ? "var(--text-muted)" : "var(--text)",
-                  border: "1px solid var(--border-strong)",
-                  opacity: hasShuffled ? 0.6 : 1,
-                  cursor: hasShuffled ? "not-allowed" : "pointer",
-                }}
-              >
-                <Shuffle size={13} className={shuffling ? "animate-spin" : ""} />
-                {hasShuffled ? "Shuffled ✓" : shuffling ? "Shuffling..." : "🔀 Refresh Cards"}
-              </button>
+              {/* Hand Shuffle Button (only if enabled by host) */}
+              {allowRefresh ? (
+                <button
+                  onClick={handleShuffle}
+                  disabled={reachedShuffleLimit || shuffling}
+                  aria-label="Refresh response cards"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all touch-target"
+                  style={{
+                    backgroundColor: reachedShuffleLimit ? "var(--surface)" : "var(--surface-2)",
+                    color: reachedShuffleLimit ? "var(--text-muted)" : "var(--text)",
+                    border: "1px solid var(--border-strong)",
+                    opacity: reachedShuffleLimit ? 0.6 : 1,
+                    cursor: reachedShuffleLimit ? "not-allowed" : "pointer",
+                  }}
+                >
+                  <Shuffle size={13} className={shuffling ? "animate-spin" : ""} />
+                  {reachedShuffleLimit
+                    ? `Refreshed (${maxShuffles}/${maxShuffles})`
+                    : shuffling
+                    ? "Refreshing..."
+                    : `🔀 Refresh (${maxShuffles - shuffleCount} left)`}
+                </button>
+              ) : (
+                <span className="text-[11px] text-[var(--text-subtle)] font-medium">
+                  Refresh Off
+                </span>
+              )}
             </div>
 
             {/* Hand Cards Grid */}

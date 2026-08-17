@@ -22,6 +22,8 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
   const [totalRounds, setTotalRounds] = useState(session.totalRounds ?? 10);
   const [minRefillThreshold, setMinRefillThreshold] = useState(session.minCardsRefillThreshold ?? 2);
   const [refillCount, setRefillCount] = useState(session.refillCardCount ?? 3);
+  const [allowRefresh, setAllowRefresh] = useState(session.allowCardRefresh ?? true);
+  const [maxShuffles, setMaxShuffles] = useState(session.maxShufflesPerRound ?? 1);
 
   const isHost = session.players.find((p) => p.id === playerId)?.isHost ?? false;
   const connectedPlayers = session.players.filter((p) => p.connected);
@@ -98,7 +100,7 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
               color: "var(--text)",
             }}
           >
-            Players ({connectedPlayers.length}/50)
+            Players ({connectedPlayers.length}/10)
           </h2>
           <span
             style={{
@@ -350,6 +352,97 @@ export function LobbyRoom({ session, playerId, onSessionUpdate }: LobbyRoomProps
               <span>When &lt; 1 card</span>
               <span>When &lt; 4 cards</span>
             </div>
+          </div>
+
+          {/* Card Refresh / Shuffle Settings */}
+          <div
+            className="flex flex-col gap-3 p-3.5 rounded-xl"
+            style={{
+              backgroundColor: "var(--surface-2)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <label
+                  style={{
+                    color: "var(--text)",
+                    fontSize: "0.85rem",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 700,
+                  }}
+                >
+                  ALLOW CARD REFRESH (SHUFFLE)
+                </label>
+                <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+                  Players can discard hand and redraw new cards
+                </p>
+              </div>
+
+              {/* Toggle switch */}
+              <button
+                type="button"
+                onClick={() => {
+                  const val = !allowRefresh;
+                  setAllowRefresh(val);
+                  syncSettings({ allowCardRefresh: val });
+                }}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors touch-target"
+                style={{
+                  backgroundColor: allowRefresh ? "var(--accent-primary)" : "var(--border-strong)",
+                }}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    allowRefresh ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {allowRefresh && (
+              <div className="flex flex-col gap-1.5 pt-2" style={{ borderTop: "1px solid var(--border)" }}>
+                <div className="flex items-center justify-between">
+                  <label
+                    style={{
+                      color: "var(--text-muted)",
+                      fontSize: "0.75rem",
+                      fontFamily: "Inter, sans-serif",
+                      fontWeight: 600,
+                    }}
+                  >
+                    MAX REFRESHES PER ROUND
+                  </label>
+                  <span
+                    style={{
+                      fontFamily: "'Baloo 2', sans-serif",
+                      fontWeight: 700,
+                      color: "var(--accent-primary)",
+                      fontSize: "0.95rem",
+                    }}
+                  >
+                    {maxShuffles} time{maxShuffles > 1 ? "s" : ""}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={1}
+                  max={5}
+                  value={maxShuffles}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setMaxShuffles(val);
+                    syncSettings({ maxShufflesPerRound: val });
+                  }}
+                  className="w-full h-2 rounded-lg cursor-pointer"
+                  style={{ accentColor: "var(--accent-primary)" }}
+                />
+                <div className="flex justify-between text-[10px]" style={{ color: "var(--text-muted)" }}>
+                  <span>1 per round</span>
+                  <span>5 per round</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Available packs */}
